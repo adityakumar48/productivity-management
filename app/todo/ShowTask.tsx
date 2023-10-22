@@ -53,7 +53,7 @@ const ShowTask = () => {
           data={pendingItems}
           className="w-1/4 px-4"
           title="Pending"
-          primaryColor="text-gray-700 bg-rose-200"
+          primaryColor="text-neutral-600 bg-rose-200"
           cardBgColor="bg-rose-100"
           textBgColor="bg-rose-200"
         />
@@ -61,7 +61,7 @@ const ShowTask = () => {
           data={completedItems}
           className="w-1/4 px-4"
           title="Completed"
-          primaryColor="text-gray-700  bg-purple-300"
+          primaryColor="text-neutral-600  bg-purple-300"
           cardBgColor="bg-purple-100"
           textBgColor="bg-purple-200"
         />
