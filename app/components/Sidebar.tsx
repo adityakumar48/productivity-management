@@ -111,7 +111,7 @@ export const Sidebar = () => {
   return (
     <aside>
       <h1 className="font-poppins tracking-wide text-2xl pl-6 pt-10 text-gray-600 font-bold">
-        Dashboard
+        <Link href={"/"}>Dashboard</Link>
       </h1>
 
       <ul>
