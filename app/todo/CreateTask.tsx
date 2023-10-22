@@ -81,7 +81,7 @@ const CreateTask = () => {
           </RadioGroup.Root>
         </>
       )}
-      <button className="bg-blue-500 text-white px-3 py-2 rounded-md mt-3">
+      <button className="bg-purple-500 text-white px-3 py-2 rounded-md mt-3">
         Add Task
       </button>
     </form>

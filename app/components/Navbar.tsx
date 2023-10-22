@@ -18,8 +18,6 @@ const Navbar = () => {
     "Konnichiwa",
     "Olá",
     "Ahoj",
-    "Guten Tag",
-    "Shalom",
   ];
 
   const randomGreeting =
@@ -31,7 +29,7 @@ const Navbar = () => {
         <div className="logo">
           <h1 className="text-xl font-bold font-poppins">
             {" "}
-            {randomGreeting} Aditya , 👋
+            {randomGreeting}, Aditya 👋
           </h1>
         </div>
 
