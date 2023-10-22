@@ -1,5 +1,6 @@
 import React from "react";
 import CreateTask from "./CreateTask";
+import ShowTask from "./ShowTask";
 
 const TodoHomepage = () => {
   return (
@@ -11,7 +12,9 @@ const TodoHomepage = () => {
       </p>
       <div>
         <CreateTask />
+        <hr className="mt-10 w-[70%] mx-auto " />
       </div>
+      <ShowTask />
     </div>
   );
 };
