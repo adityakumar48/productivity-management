@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
+import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,12 +25,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.variable}>
-        <main className="flex">
-          <aside className="w-[20%] bg-slate-100 max-h-screen h-screen  ">
-            <Sidebar />
-          </aside>
-          <main className="w-[80%]">{children}</main>
-        </main>
+        <Theme>
+          <main className="flex">
+            <aside className="w-[20%] bg-slate-100 max-h-screen h-screen  ">
+              <Sidebar />
+            </aside>
+            <main className="w-[80%]">
+              <Navbar />
+              {children}
+            </main>
+          </main>
+        </Theme>
       </body>
     </html>
   );
