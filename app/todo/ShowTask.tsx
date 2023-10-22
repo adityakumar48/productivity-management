@@ -29,7 +29,7 @@ const ShowTask = () => {
   ];
 
   const todoItems = data.filter((item) => item.status === "todo");
-  const pendingItems = data.filter((item) => item.status === "pending");
+  const processingItems = data.filter((item) => item.status === "pending");
   const completedItems = data.filter((item) => item.status === "completed");
 
   return (
@@ -40,26 +40,26 @@ const ShowTask = () => {
         </h1>
       </div>
 
-      <div className="flex w-full">
+      <div className="flex w-[90%]">
         <Column
           data={todoItems}
-          className="w-1/4 px-4"
+          className="w-1/3 px-4"
           title="Todo"
           primaryColor="text-gray-200 bg-slate-400"
           cardBgColor="bg-slate-200"
           textBgColor="bg-slate-300"
         />
         <Column
-          data={pendingItems}
-          className="w-1/4 px-4"
-          title="Pending"
+          data={processingItems}
+          className="w-1/3 px-4"
+          title="Processing"
           primaryColor="text-neutral-600 bg-rose-200"
           cardBgColor="bg-rose-100"
           textBgColor="bg-rose-200"
         />
         <Column
           data={completedItems}
-          className="w-1/4 px-4"
+          className="w-1/3 px-4"
           title="Completed"
           primaryColor="text-neutral-600  bg-purple-300"
           cardBgColor="bg-purple-100"
