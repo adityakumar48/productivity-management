@@ -109,7 +109,7 @@ export const ItemHeading = (props: SidebarProps) => {
 
 export const Sidebar = () => {
   return (
-    <aside>
+    <aside className="">
       <h1 className="font-poppins tracking-wide text-2xl pl-6 pt-10 text-gray-600 font-bold">
         <Link href={"/"}>Dashboard</Link>
       </h1>

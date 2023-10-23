@@ -34,7 +34,7 @@ const ShowTask = () => {
       id: 4,
       title: "Task 4",
       status: "completed",
-      time: "0",
+      time: "00h:05m:36s",
     },
   ]);
 
