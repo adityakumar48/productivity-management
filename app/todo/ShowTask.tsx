@@ -4,32 +4,42 @@ import { Flex, Text } from "@radix-ui/themes";
 import Column from "./Column";
 
 const ShowTask = () => {
-  const data = [
+  const [data, setData] = useState([
     {
       id: 1,
       title: "Task 1",
       status: "todo",
+      time: "0",
     },
 
     {
       id: 2,
       title: "Task 2",
       status: "todo",
+      time: "0",
     },
     {
       id: 3,
       title: "Task 3",
-      status: "pending",
+      status: "processing",
+      time: "0",
+    },
+    {
+      id: 5,
+      title: "Task 5",
+      status: "processing",
+      time: "0",
     },
     {
       id: 4,
       title: "Task 4",
       status: "completed",
+      time: "0",
     },
-  ];
+  ]);
 
   const todoItems = data.filter((item) => item.status === "todo");
-  const processingItems = data.filter((item) => item.status === "pending");
+  const processingItems = data.filter((item) => item.status === "processing");
   const completedItems = data.filter((item) => item.status === "completed");
 
   return (
@@ -43,6 +53,7 @@ const ShowTask = () => {
       <div className="flex w-[90%]">
         <Column
           data={todoItems}
+          setData={setData}
           className="w-1/3 px-4"
           title="Todo"
           primaryColor="text-gray-200 bg-slate-400"
@@ -51,6 +62,7 @@ const ShowTask = () => {
         />
         <Column
           data={processingItems}
+          setData={setData}
           className="w-1/3 px-4"
           title="Processing"
           primaryColor="text-neutral-600 bg-rose-200"
@@ -59,6 +71,7 @@ const ShowTask = () => {
         />
         <Column
           data={completedItems}
+          setData={setData}
           className="w-1/3 px-4"
           title="Completed"
           primaryColor="text-neutral-600  bg-purple-300"
