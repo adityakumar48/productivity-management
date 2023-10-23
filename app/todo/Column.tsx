@@ -34,7 +34,6 @@ const Column = ({
   setData,
 }: Props) => {
   const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
-  const [totalTime, setTotalTime] = useState(0);
 
   var updatedMs = time.ms,
     updatedS = time.s,
@@ -102,7 +101,7 @@ const Column = ({
 
   return (
     <div className={`${className} pt-5`}>
-      <div className={` min-h-[40vh] rounded-lg ${cardBgColor}`}>
+      <div className={` min-h-[40vh] pb-1 mb-5 rounded-lg ${cardBgColor}`}>
         <Text
           className={`flex justify-center rounded-md ${primaryColor} border border-x-black hover:border-y-black hover:border-x-white duration-300 transition-all ease-in-out  text-2xl font-poppins tracking-wider font-semibold py-2`}
         >
@@ -115,7 +114,7 @@ const Column = ({
               <li
                 key={item.id}
                 draggable
-                className={`text-lg flex items-center justify-between font-semibold font-poppins tracking-wider ${textBgColor} my-3 px-3 py-2 rounded-lg mx-2`}
+                className={`text-lg flex  items-center justify-between font-semibold font-poppins tracking-wider ${textBgColor} my-3 px-3 py-2 rounded-lg mx-2`}
               >
                 {item.title}
 

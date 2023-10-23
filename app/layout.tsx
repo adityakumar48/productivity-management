@@ -27,10 +27,10 @@ export default function RootLayout({
       <body className={poppins.variable}>
         <Theme>
           <main className="flex">
-            <aside className="w-[20%] bg-slate-100 max-h-screen h-screen  ">
+            <aside className="w-[20%] bg-slate-100 min-h-screen fixed  ">
               <Sidebar />
             </aside>
-            <main className="w-[80%]">
+            <main className="w-[80%] ml-[20%]">
               <Navbar />
               {children}
             </main>
