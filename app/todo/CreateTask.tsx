@@ -62,10 +62,10 @@ const CreateTask = () => {
               <Text as="label" size="2">
                 <Flex gap="2">
                   <RadioGroup.Item
-                    value="pending"
-                    onClick={() => setStatus("pending")}
+                    value="processing"
+                    onClick={() => setStatus("processing")}
                   />{" "}
-                  Pending
+                  Processing
                 </Flex>
               </Text>
               <Text as="label" size="2">
