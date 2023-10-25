@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = env("MYSQL_DATABASE_URL")
 }
 
 model Profile {
@@ -27,8 +27,8 @@ model Profile {
 model Task {
   id        Int        @id @default(autoincrement())
   Task      String
-  Status    TaskStatus
-  Time      String
+  Status    TaskStatus @default(todo)
+  Time      String     @default("00:00:00")
   createdAt DateTime   @default(now())
   updatedAt DateTime   @default(now()) @updatedAt
   ProfileId Int
@@ -37,7 +37,7 @@ model Task {
 
 enum TaskStatus {
   todo
-  pending
+  processing
   completed
 }
 

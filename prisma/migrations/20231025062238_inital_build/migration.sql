@@ -6,9 +6,11 @@ CREATE TABLE `Profile` (
     `Number` INTEGER NOT NULL,
     `DOB` DATETIME(3) NOT NULL,
     `Age` INTEGER NOT NULL,
+    `isAdmin` BOOLEAN NOT NULL DEFAULT false,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
+    UNIQUE INDEX `Profile_Email_key`(`Email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -16,10 +18,10 @@ CREATE TABLE `Profile` (
 CREATE TABLE `Task` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `Task` VARCHAR(191) NOT NULL,
-    `Status` ENUM('todo', 'pending') NOT NULL,
+    `Status` ENUM('todo', 'pending', 'completed') NOT NULL,
     `Time` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `ProfileId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)

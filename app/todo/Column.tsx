@@ -1,27 +1,23 @@
 "use client";
+import { Task } from "@prisma/client";
 import { Text } from "@radix-ui/themes";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { BiRightArrowCircle } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 interface Props {
-  data: {
-    id: number;
-    title: string;
-    status: string;
-    time: string;
-  }[];
+  data: Task[];
   className?: string;
   title: string;
   primaryColor?: string;
   cardBgColor?: string;
   textBgColor?: string;
-  setData?: Dispatch<
-    SetStateAction<
-      { id: number; title: string; status: string; time: string }[]
-    >
-  >;
+  setData?: Dispatch<SetStateAction<Task[]>>;
+  refresh: boolean;
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Column = ({
@@ -32,6 +28,8 @@ const Column = ({
   cardBgColor,
   textBgColor,
   setData,
+  refresh,
+  setRefresh,
 }: Props) => {
   const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
 
@@ -64,7 +62,7 @@ const Column = ({
     // @ts-ignore
     setData((prev) => {
       return prev.map((item) => {
-        if (item.status === "processing") {
+        if (item.Status === "processing") {
           return { ...item, time: `${updatedH}h:${updatedM}m:${updatedS}s` };
         }
         return item;
@@ -80,7 +78,7 @@ const Column = ({
     setData((prev) => {
       return prev.map((item) => {
         if (item?.id == taskId) {
-          return { ...item, status: "completed" };
+          return { ...item, Status: "completed" };
         }
         return item;
       });
@@ -92,11 +90,16 @@ const Column = ({
     setData((prev) => {
       return prev.map((item) => {
         if (item?.id == taskId) {
-          return { ...item, status: "processing" };
+          return { ...item, Status: "processing" };
         }
         return item;
       });
     });
+  };
+
+  const onDelte = async (id: number) => {
+    const res = await axios.delete(`/api/tasks/${id}`);
+    setRefresh(true);
   };
 
   return (
@@ -114,16 +117,19 @@ const Column = ({
               <li
                 key={item.id}
                 draggable
-                className={`text-lg flex  items-center justify-between font-semibold font-poppins tracking-wider ${textBgColor} my-3 px-3 py-2 rounded-lg mx-2`}
+                className={`text-lg flex  items-center justify-between font-semibold font-poppins tracking-wider ${textBgColor} my-3  px-3 py-2 rounded-lg mx-2`}
               >
-                {item.title}
+                <span className="w-[70%]">{item.Task}</span>
 
                 <span className="">
                   <span className="flex items-center justify-end  gap-2">
                     <FiEdit className="text-lg text-zinc-400" />
-                    <AiOutlineMinusCircle className="text-lg text-red-600  " />
-                    {item.status !== "completed" ? (
-                      item.status === "processing" ? (
+                    <AiOutlineMinusCircle
+                      className="text-lg text-red-600"
+                      onClick={() => onDelte(item.id)}
+                    />
+                    {item.Status !== "completed" ? (
+                      item.Status === "processing" ? (
                         <BiRightArrowCircle
                           onClick={() => TimeStop({ taskId: item.id })}
                           className="text-lg text-green-600"
@@ -138,14 +144,14 @@ const Column = ({
                   </span>
 
                   {/* Completed Time */}
-                  {item.status === "completed" ? (
-                    item.time === "0" ? null : (
-                      <span className="text-xs">{item.time}</span>
+                  {item.Status === "completed" ? (
+                    item.Time === "0" ? null : (
+                      <span className="text-xs">{item.Time}</span>
                     )
                   ) : null}
 
                   {/* Processing Time */}
-                  {item.status === "processing" ? (
+                  {item.Status === "processing" ? (
                     <>
                       <span className="text-xs">
                         {time.h >= 10 ? time.h : "0" + time.h}h:
