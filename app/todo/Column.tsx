@@ -5,8 +5,8 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { BiRightArrowCircle } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
-import { useRouter } from "next/navigation";
 import axios from "axios";
+import { createTimeModel, useTimeModel } from "react-compound-timer";
 
 interface Props {
   data: Task[];
@@ -32,18 +32,11 @@ const Column = ({
   setRefresh,
 }: Props) => {
   const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
-
+  const [timeStamp, setTimeStamp] = useState<number>(0);
   var updatedMs = time.ms,
     updatedS = time.s,
     updatedM = time.m,
     updatedH = time.h;
-
-  useEffect(() => {
-    run();
-
-    const interval = setInterval(run, 10);
-    return () => clearInterval(interval);
-  }, []);
 
   const run = () => {
     if (updatedM === 60) {
@@ -73,28 +66,17 @@ const Column = ({
   };
 
   // @ts-ignore
-  const TimeStop = ({ taskId }: { taskId: number }) => {
-    // @ts-ignore
-    setData((prev) => {
-      return prev.map((item) => {
-        if (item?.id == taskId) {
-          return { ...item, Status: "completed" };
-        }
-        return item;
-      });
-    });
+  const TimeStop = async ({ id }: { id: number }) => {
+    const res = await axios.put(`/api/tasks/${id}`);
+    setRefresh(true);
   };
 
-  const GotoProcessing = ({ taskId }: { taskId: number }) => {
-    // @ts-ignore
-    setData((prev) => {
-      return prev.map((item) => {
-        if (item?.id == taskId) {
-          return { ...item, Status: "processing" };
-        }
-        return item;
-      });
-    });
+  const GotoProcessing = async ({ id }: { id: number }) => {
+    let newtimeStamp = Date.now() - timeStamp;
+
+    console.log(newtimeStamp);
+    const res = await axios.patch(`/api/tasks/${id}`);
+    setRefresh(true);
   };
 
   const onDelte = async (id: number) => {
@@ -131,12 +113,12 @@ const Column = ({
                     {item.Status !== "completed" ? (
                       item.Status === "processing" ? (
                         <BiRightArrowCircle
-                          onClick={() => TimeStop({ taskId: item.id })}
+                          onClick={() => TimeStop({ id: item.id })}
                           className="text-lg text-green-600"
                         />
                       ) : (
                         <BiRightArrowCircle
-                          onClick={() => GotoProcessing({ taskId: item.id })}
+                          onClick={() => GotoProcessing({ id: item.id })}
                           className="text-lg text-green-600"
                         />
                       )
