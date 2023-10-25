@@ -29,6 +29,7 @@ const CreateTask = ({ setRefresh }: Props) => {
 
     setRefresh(true);
     setTask("");
+    setStatus("todo");
     setClick(false);
   };
 

@@ -28,7 +28,7 @@ model Task {
   id        Int        @id @default(autoincrement())
   Task      String
   Status    TaskStatus @default(todo)
-  Time      String     @default("00:00:00")
+  Time      String     @default("00:00")
   createdAt DateTime   @default(now())
   updatedAt DateTime   @default(now()) @updatedAt
   ProfileId Int

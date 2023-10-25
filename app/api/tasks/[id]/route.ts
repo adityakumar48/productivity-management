@@ -11,17 +11,7 @@ export async function GET(
     },
   });
 
-  const today = new Date();
-
-  const todayTasks = tasks.filter((task) => {
-    return (
-      task.createdAt.getDate() === today.getDate() &&
-      task.createdAt.getMonth() === today.getMonth() &&
-      task.createdAt.getFullYear() === today.getFullYear()
-    );
-  });
-
-  return NextResponse.json(todayTasks || null);
+  return NextResponse.json(tasks || null);
 }
 
 export async function DELETE(
@@ -31,6 +21,38 @@ export async function DELETE(
   const task = await prisma.task.delete({
     where: {
       id: parseInt(params.id),
+    },
+  });
+
+  return NextResponse.json(task);
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const task = await prisma.task.update({
+    where: {
+      id: parseInt(params.id),
+    },
+    data: {
+      Status: "processing",
+    },
+  });
+
+  return NextResponse.json(task);
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const task = await prisma.task.update({
+    where: {
+      id: parseInt(params.id),
+    },
+    data: {
+      Status: "completed",
     },
   });
 
