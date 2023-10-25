@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import CreateTask from "./CreateTask";
 import ShowTask from "./ShowTask";
 
 const TodoHomepage = () => {
+  const [refresh, setRefresh] = useState(false);
   return (
     <div className="px-16 pt-2">
       <h1 className="font-poppins text-4xl font-bold">Tasks</h1>
@@ -11,10 +13,10 @@ const TodoHomepage = () => {
         Write and manage your tasks easily...{" "}
       </p>
       <div>
-        <CreateTask />
+        <CreateTask setRefresh={setRefresh} />
         <hr className="mt-10 w-[70%] mx-auto " />
       </div>
-      <ShowTask />
+      <ShowTask refresh={refresh} setRefresh={setRefresh} />
     </div>
   );
 };

@@ -23,3 +23,16 @@ export async function GET(
 
   return NextResponse.json(todayTasks || null);
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const task = await prisma.task.delete({
+    where: {
+      id: parseInt(params.id),
+    },
+  });
+
+  return NextResponse.json(task);
+}

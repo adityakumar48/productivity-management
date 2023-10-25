@@ -1,46 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Flex, Text } from "@radix-ui/themes";
 import Column from "./Column";
+import axios from "axios";
+import { Task } from "@prisma/client";
 
-const ShowTask = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      title: "Task 1",
-      status: "todo",
-      time: "0",
-    },
+interface Props {
+  refresh: boolean;
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-    {
-      id: 2,
-      title: "Task 2",
-      status: "todo",
-      time: "0",
-    },
-    {
-      id: 3,
-      title: "Task 3",
-      status: "processing",
-      time: "0",
-    },
-    {
-      id: 5,
-      title: "Task 5",
-      status: "processing",
-      time: "0",
-    },
-    {
-      id: 4,
-      title: "Task 4",
-      status: "completed",
-      time: "00h:05m:36s",
-    },
-  ]);
+const ShowTask = ({ refresh, setRefresh }: Props) => {
+  useEffect(() => {
+    fetchData();
+    setRefresh(false);
+  }, [refresh]);
 
-  const todoItems = data.filter((item) => item.status === "todo");
-  const processingItems = data.filter((item) => item.status === "processing");
-  const completedItems = data.filter((item) => item.status === "completed");
+  const fetchData = async () => {
+    const res = await axios.get("/api/tasks/1");
+    setData(res.data);
+  };
+
+  const [data, setData] = useState<Task[]>([]);
+
+  const todoItems = data.filter((item) => item.Status === "todo");
+  const processingItems = data.filter((item) => item.Status === "processing");
+  const completedItems = data.filter((item) => item.Status === "completed");
 
   return (
     <div>
@@ -52,6 +37,8 @@ const ShowTask = () => {
 
       <div className="flex w-[90%]">
         <Column
+          refresh={refresh}
+          setRefresh={setRefresh}
           data={todoItems}
           setData={setData}
           className="w-1/3 px-4"
@@ -61,6 +48,8 @@ const ShowTask = () => {
           textBgColor="bg-slate-300"
         />
         <Column
+          refresh={refresh}
+          setRefresh={setRefresh}
           data={processingItems}
           setData={setData}
           className="w-1/3 px-4"
@@ -70,6 +59,8 @@ const ShowTask = () => {
           textBgColor="bg-rose-200"
         />
         <Column
+          refresh={refresh}
+          setRefresh={setRefresh}
           data={completedItems}
           setData={setData}
           className="w-1/3 px-4"

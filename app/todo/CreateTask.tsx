@@ -1,8 +1,14 @@
 "use client";
 import { Flex, RadioGroup, Text } from "@radix-ui/themes";
+import axios from "axios";
+
 import React, { useState } from "react";
 
-const CreateTask = () => {
+interface Props {
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CreateTask = ({ setRefresh }: Props) => {
   const [click, setClick] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("todo");
   const [task, setTask] = useState<string>("");
@@ -12,15 +18,18 @@ const CreateTask = () => {
     setTask(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(task, status);
+    const res = await axios.post("/api/tasks", {
+      Task: task,
+      Status: status,
+      ProfileId: 1,
+    });
 
-    const data = {
-      task,
-      status,
-    };
+    setRefresh(true);
+    setTask("");
+    setClick(false);
   };
 
   return (
