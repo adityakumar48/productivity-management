@@ -1,0 +1,45 @@
+-- CreateTable
+CREATE TABLE `Profile` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `Name` VARCHAR(191) NOT NULL,
+    `Email` VARCHAR(191) NOT NULL,
+    `Number` INTEGER NOT NULL,
+    `DOB` DATETIME(3) NOT NULL,
+    `Age` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Task` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `Task` VARCHAR(191) NOT NULL,
+    `Status` ENUM('todo', 'pending') NOT NULL,
+    `Time` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `ProfileId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Contact` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `Name` VARCHAR(191) NOT NULL,
+    `Email` VARCHAR(191) NULL,
+    `Number` INTEGER NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `ProfileId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Task` ADD CONSTRAINT `Task_ProfileId_fkey` FOREIGN KEY (`ProfileId`) REFERENCES `Profile`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Contact` ADD CONSTRAINT `Contact_ProfileId_fkey` FOREIGN KEY (`ProfileId`) REFERENCES `Profile`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
