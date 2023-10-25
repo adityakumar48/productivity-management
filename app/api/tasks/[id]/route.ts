@@ -21,5 +21,5 @@ export async function GET(
     );
   });
 
-  return NextResponse.json(todayTasks);
+  return NextResponse.json(todayTasks || null);
 }
