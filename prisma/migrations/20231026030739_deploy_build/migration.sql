@@ -18,8 +18,8 @@ CREATE TABLE `Profile` (
 CREATE TABLE `Task` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `Task` VARCHAR(191) NOT NULL,
-    `Status` ENUM('todo', 'pending', 'completed') NOT NULL,
-    `Time` VARCHAR(191) NOT NULL,
+    `Status` ENUM('todo', 'processing', 'completed') NOT NULL DEFAULT 'todo',
+    `Time` VARCHAR(191) NOT NULL DEFAULT '00:00',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `ProfileId` INTEGER NOT NULL,
