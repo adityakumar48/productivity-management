@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
       data: {
         Task,
         Status,
-        ProfileId,
+        userId: ProfileId,
       },
     });
 
@@ -24,21 +24,21 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
-  const user = await prisma.profile.findMany({
-    where: {
-      isAdmin: true,
-    },
-  });
-  const tasks = await prisma.task.findMany();
-  if (user.length > 0) {
-    return NextResponse.json(tasks);
-  }
+// export async function GET(request: NextRequest) {
+//   const user = await prisma.user.findMany({
+//     where: {
+//       isAdmin: true,
+//     },
+//   });
+//   const tasks = await prisma.task.findMany();
+//   if (user.length > 0) {
+//     return NextResponse.json(tasks);
+//   }
 
-  return NextResponse.json(
-    {
-      error: "You must be an admin to view this page.",
-    },
-    { status: 403 }
-  );
-}
+//   return NextResponse.json(
+//     {
+//       error: "You must be an admin to view this page.",
+//     },
+//     { status: 403 }
+//   );
+// }

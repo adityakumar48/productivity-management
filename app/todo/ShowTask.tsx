@@ -3,29 +3,25 @@ import React, { useEffect, useState } from "react";
 import { Flex, Text } from "@radix-ui/themes";
 import Column from "./Column";
 import axios from "axios";
-import { Task } from "@prisma/client";
+import { Task, User } from "@prisma/client";
 
 interface Props {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+  data: Task[];
+  setData: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const ShowTask = ({ refresh, setRefresh }: Props) => {
+const ShowTask = ({ refresh, setRefresh, data, setData }: Props) => {
+  // call the fetch data function when the userId changes or the refresh state changes
+
   useEffect(() => {
-    fetchData();
     setRefresh(false);
   }, [refresh]);
 
-  const fetchData = async () => {
-    const res = await axios.get("/api/tasks/1");
-    setData(res.data);
-  };
-
-  const [data, setData] = useState<Task[]>([]);
-
-  const todoItems = data.filter((item) => item.Status === "todo");
-  const processingItems = data.filter((item) => item.Status === "processing");
-  const completedItems = data.filter((item) => item.Status === "completed");
+  const todoItems = data?.filter((item) => item.Status === "todo");
+  const processingItems = data?.filter((item) => item.Status === "processing");
+  const completedItems = data?.filter((item) => item.Status === "completed");
 
   return (
     <div>
