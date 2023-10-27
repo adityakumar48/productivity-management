@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import React, { useState } from "react";
 import DateTime from "./DateTime";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
   const greetingData = [
@@ -19,6 +21,9 @@ const Navbar = () => {
     "Olá",
     "Ahoj",
   ];
+  const { data: session, status } = useSession();
+
+  if (status === "loading") return null;
 
   const randomGreeting =
     greetingData[Math.floor(Math.random() * greetingData.length)];
@@ -29,20 +34,22 @@ const Navbar = () => {
         <div className="logo">
           <h1 className="text-xl font-bold font-poppins">
             {" "}
-            {randomGreeting}, Aditya 👋
+            {randomGreeting}, {session?.user?.name?.split(" ")[0]} 👋
           </h1>
         </div>
 
         <div className="logo flex items-center gap-4">
           <DateTime />
           <div>
-            <Image
-              src={"https://dummyimage.com/300x300/000/fff"}
-              alt="profile"
-              width={50}
-              height={50}
-              className="rounded-full "
-            />
+            {status === "authenticated" ? (
+              <Image
+                src={`${session?.user?.image}`}
+                alt="profile"
+                width={50}
+                height={50}
+                className="rounded-full "
+              />
+            ) : null}
           </div>
         </div>
       </div>

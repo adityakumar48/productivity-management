@@ -1,9 +1,12 @@
-import TodoHomepage from "./todo/page";
+import Link from "next/link";
+import Dashboard from "./Dashboard/page";
 
-export default function Home() {
+const HomePage = () => {
   return (
-    <main>
-      <TodoHomepage />
-    </main>
+    <div>
+      <Dashboard />
+    </div>
   );
-}
+};
+
+export default HomePage;

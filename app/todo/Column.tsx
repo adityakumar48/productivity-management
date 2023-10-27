@@ -6,7 +6,6 @@ import { AiOutlineMinusCircle } from "react-icons/ai";
 import { BiRightArrowCircle } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
 import axios from "axios";
-import { createTimeModel, useTimeModel } from "react-compound-timer";
 
 interface Props {
   data: Task[];
@@ -72,10 +71,8 @@ const Column = ({
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
-    let newtimeStamp = Date.now() - timeStamp;
-
-    console.log(newtimeStamp);
     const res = await axios.patch(`/api/tasks/${id}`);
+    const res2 = await axios.post(`/api/tasks/${id}`);
     setRefresh(true);
   };
 

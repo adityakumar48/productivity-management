@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { LuListTodo, LuTimer } from "react-icons/lu";
@@ -6,6 +7,7 @@ import { AiOutlineCalendar } from "react-icons/ai";
 import { RiRemoteControlLine } from "react-icons/ri";
 import { BiStats } from "react-icons/bi";
 import { TiContacts } from "react-icons/ti";
+import { useSession } from "next-auth/react";
 
 const sidebarItems = [
   {
@@ -108,20 +110,30 @@ export const ItemHeading = (props: SidebarProps) => {
 };
 
 export const Sidebar = () => {
+  const { data: session, status } = useSession();
   return (
-    <aside className="">
-      <h1 className="font-poppins tracking-wide text-2xl pl-6 pt-10 text-gray-600 font-bold">
-        <Link href={"/"}>Dashboard</Link>
-      </h1>
+    <>
+      {status === "authenticated" && (
+        <aside className="w-[20%] bg-slate-100 min-h-screen fixed  ">
+          <aside className="">
+            <h1 className="font-poppins tracking-wide text-2xl pl-6 pt-10 text-gray-600 font-bold">
+              <Link href={"/"}>Dashboard</Link>
+            </h1>
 
-      <ul>
-        {sidebarHeadings.map((heading, index) => (
-          <div key={index}>
-            <ItemHeading heading={heading} number={sidebarHeadings.length} />
-          </div>
-        ))}
-      </ul>
-    </aside>
+            <ul>
+              {sidebarHeadings.map((heading, index) => (
+                <div key={index}>
+                  <ItemHeading
+                    heading={heading}
+                    number={sidebarHeadings.length}
+                  />
+                </div>
+              ))}
+            </ul>
+          </aside>
+        </aside>
+      )}
+    </>
   );
 };
 
