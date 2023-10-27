@@ -8,7 +8,7 @@ export async function GET(
   try {
     const tasks = await prisma.task.findMany({
       where: {
-        ProfileId: parseInt(params.id),
+        userId: params.id,
       },
     });
 
@@ -139,7 +139,6 @@ export async function POST(
     // create stopwatch if status is processing then start it timer 00h:00m:00s and save it to db and return it to client side
     // if status is completed then stop timer and save it to db and return it to client side
 
-    console.log(task);
     return NextResponse.json(task);
   } catch (err) {
     console.log(err);

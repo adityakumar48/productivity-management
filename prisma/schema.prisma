@@ -10,18 +10,60 @@ datasource db {
   url      = env("MYSQL_DATABASE_URL")
 }
 
-model Profile {
-  id        Int       @id @default(autoincrement())
-  Name      String
-  Email     String    @unique
-  Number    Int
-  DOB       DateTime
-  Age       Int
-  isAdmin   Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  Tasks     Task[]
-  Contacts  Contact[]
+enum TaskStatus {
+  todo
+  processing
+  completed
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  isAdmin       Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+  Tasks         Task[]
+  Contacts      Contact[]
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
 
 model Task {
@@ -31,23 +73,17 @@ model Task {
   Time      String     @default("00:00")
   createdAt DateTime   @default(now())
   updatedAt DateTime   @default(now()) @updatedAt
-  ProfileId Int
-  Profile   Profile    @relation(fields: [ProfileId], references: [id])
-}
-
-enum TaskStatus {
-  todo
-  processing
-  completed
+  userId    String
+  User      User       @relation(fields: [userId], references: [id])
 }
 
 model Contact {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   Name      String
   Email     String?
   Number    Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  ProfileId Int
-  Profile   Profile  @relation(fields: [ProfileId], references: [id])
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
 }
