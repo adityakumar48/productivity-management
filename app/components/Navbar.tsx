@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import DateTime from "./DateTime";
 import { useSession } from "next-auth/react";
+import { Avatar, DropdownMenu, Text } from "@radix-ui/themes";
 
 const Navbar = () => {
   const greetingData = [
@@ -42,13 +43,25 @@ const Navbar = () => {
           <DateTime />
           <div>
             {status === "authenticated" ? (
-              <Image
-                src={`${session?.user?.image}`}
-                alt="profile"
-                width={50}
-                height={50}
-                className="rounded-full "
-              />
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar
+                    src={session.user!.image!}
+                    fallback="?"
+                    radius="full"
+                    className="cursor-pointer"
+                  />
+                </DropdownMenu.Trigger>
+
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    <Text size={"2"}>{session.user!.name}</Text>{" "}
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Item>
+                    <a href="/api/auth/signout">Sign out</a>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             ) : null}
           </div>
         </div>
