@@ -42,7 +42,7 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
           data={todoItems}
           setData={setData}
           className="w-1/3 px-4"
-          title="Todo"
+          title="Task"
           primaryColor="text-gray-200 bg-slate-400"
           cardBgColor="bg-slate-200"
           textBgColor="bg-slate-300"
