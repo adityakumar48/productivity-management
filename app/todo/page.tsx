@@ -2,36 +2,11 @@
 import React, { useEffect, useState } from "react";
 import CreateTask from "./CreateTask";
 import ShowTask from "./ShowTask";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import { Task } from "@prisma/client";
+import delay from "delay";
 
 const TodoHomepage = () => {
   const [userId, setUserId] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
-  const { data: session } = useSession();
-  const [data, setData] = useState<Task[]>([]);
-
-  let email = session?.user?.email;
-
-  useEffect(() => {
-    fetchUser();
-  }, [refresh]);
-
-  const fetchUser = async () => {
-    setRefresh(false);
-    const res = await axios.get(`/api/users/${email}`);
-    setUserId(res.data.id);
-    setRefresh(true);
-    fetchTask(res.data.id);
-  };
-
-  const fetchTask = async (id: { id: string }) => {
-    setRefresh(false);
-    const res = await axios.get(`/api/tasks/${id}`);
-    setData(res.data);
-    setRefresh(true);
-  };
 
   return (
     <div className="px-16 pt-2">
@@ -48,12 +23,7 @@ const TodoHomepage = () => {
         />
         <hr className="mt-10 w-[70%] mx-auto " />
       </div>
-      <ShowTask
-        refresh={refresh}
-        data={data}
-        setData={setData}
-        setRefresh={setRefresh}
-      />
+      <ShowTask refresh={refresh} setRefresh={setRefresh} />
     </div>
   );
 };

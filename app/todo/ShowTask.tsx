@@ -3,25 +3,37 @@ import React, { useEffect, useState } from "react";
 import { Flex, Text } from "@radix-ui/themes";
 import Column from "./Column";
 import axios from "axios";
-import { Task, User } from "@prisma/client";
+import { Prisma, Task, User } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import delay from "delay";
 
 interface Props {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
-  data: Task[];
-  setData: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const ShowTask = ({ refresh, setRefresh, data, setData }: Props) => {
-  // call the fetch data function when the userId changes or the refresh state changes
+const ShowTask = ({ refresh, setRefresh }: Props) => {
+  const { data: session } = useSession();
+  const [data, setData] = useState<Task[]>([]);
 
   useEffect(() => {
+    fetchTask();
     setRefresh(false);
   }, [refresh]);
 
+  const fetchTask = async () => {
+    const email = session?.user?.email;
+    const res = await axios.patch(`/api/tasks`, { email });
+    setData(res.data);
+  };
+
+  // call the fetch data function when the userId changes or the refresh state changes
   const todoItems = data?.filter((item) => item.Status === "todo");
   const processingItems = data?.filter((item) => item.Status === "processing");
   const completedItems = data?.filter((item) => item.Status === "completed");
+
+  // const tasks = await prisma.task.findMany();
+  // console.log(tasks);
 
   return (
     <div>
