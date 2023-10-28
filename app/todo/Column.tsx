@@ -18,6 +18,7 @@ interface Props {
   setData?: Dispatch<SetStateAction<Task[]>>;
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchTask: () => void;
 }
 
 const Column = ({
@@ -30,30 +31,38 @@ const Column = ({
   setData,
   setRefresh,
   refresh,
+  fetchTask,
 }: Props) => {
   useEffect(() => {
-    setRefresh(true);
+    setRefresh(false);
   }, [refresh]);
 
   const [click, setClick] = useState<boolean>(false);
 
   // @ts-ignore
   const TimeStop = async ({ id }: { id: number }) => {
-    const res = await await axios.put(`/api/tasks/${id}`);
-    setRefresh(true);
+    const res = await axios.put(`/api/tasks/${id}`).then((res) => {
+      console.log(res.data);
+      setRefresh(true);
+    });
+
+    // function call to fetch data again from database after 1 second
+    setTimeout(() => {
+      fetchTask();
+      setRefresh(true);
+    }, 3000);
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
     setClick(true);
     const res = await axios.patch(`/api/tasks/${id}`);
-    setRefresh(true);
-    setRefresh(false);
     const res2 = await axios.post(`/api/tasks/${id}`);
     setRefresh(true);
     setClick(false);
   };
 
   const onDelte = async (id: number) => {
+    setRefresh(false);
     const res = await axios.delete(`/api/tasks/${id}`);
     setRefresh(true);
   };
@@ -117,7 +126,7 @@ const Column = ({
 
                   {/* Completed Time */}
                   {item.Status === "completed" ? (
-                    item.Time === "0" ? null : (
+                    item.Time === "00:00" ? null : (
                       <span className="text-xs">{item.Time}</span>
                     )
                   ) : null}

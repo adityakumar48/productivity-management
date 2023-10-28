@@ -5,7 +5,6 @@ import Column from "./Column";
 import axios from "axios";
 import { Prisma, Task, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import TaskLoading from "./TaskLoading";
 
 interface Props {
   refresh: boolean;
@@ -49,6 +48,7 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
           primaryColor="text-gray-200 bg-slate-400"
           cardBgColor="bg-slate-200"
           textBgColor="bg-slate-300"
+          fetchTask={fetchTask}
         />
         <Column
           refresh={refresh}
@@ -60,8 +60,10 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
           primaryColor="text-neutral-600 bg-rose-200"
           cardBgColor="bg-rose-100"
           textBgColor="bg-rose-200"
+          fetchTask={fetchTask}
         />
         <Column
+          fetchTask={fetchTask}
           refresh={refresh}
           setRefresh={setRefresh}
           data={completedItems}

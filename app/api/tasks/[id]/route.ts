@@ -79,10 +79,6 @@ export async function PUT(
   }
 }
 
-// create a timer function that will start when status is processing and stop when status is completed format into 00h:00m:00s
-// create a function that will save the timer to db
-// create a function that will return the timer to client side
-
 async function createTimer(status: string, taskId: string) {
   let startTime = 0;
 
@@ -101,16 +97,21 @@ async function createTimer(status: string, taskId: string) {
         const formattedTime = `${hours}h:${minutes}m:${seconds}s`;
         if (taskId === undefined || taskId === null) return;
 
-        const task = await prisma.task.findUnique({
-          where: {
-            id: parseInt(taskId),
-          },
-        });
+        prisma.task
+          .findUnique({
+            where: {
+              id: parseInt(taskId),
+            },
+          })
+          .then((task) => {
+            if (task?.Status !== "processing") {
+              clearInterval(timerInterval);
+              // Database return user console log message
+              console.log("Timer stopped");
+              return saveToDatabase(formattedTime, taskId);
+            }
+          });
 
-        if (task?.Status !== "processing") {
-          clearInterval(timerInterval);
-          saveToDatabase(formattedTime, taskId);
-        }
         return formattedTime;
       } catch (error) {
         console.log(error);
@@ -122,6 +123,7 @@ async function createTimer(status: string, taskId: string) {
 const saveToDatabase = async (time: string, taskId: string) => {
   try {
     if (taskId === undefined || taskId === null) return;
+
     await prisma.task.update({
       where: {
         id: parseInt(taskId),
@@ -147,9 +149,17 @@ export async function POST(
     });
     // console.log(task?.Time);
     const res = createTimer(String(task?.Status), params.id);
-    // console.log(res.then((res) => console.log(res)));
 
-    return NextResponse.json(task);
+    // GET THE UPDATED TASK FROM THE DATABASE
+    const updatedTask = await prisma.task.findUnique({
+      where: {
+        id: parseInt(params.id),
+      },
+    });
+
+    console.log(updatedTask);
+
+    return NextResponse.json(updatedTask);
   } catch (err) {
     console.log(err);
   }
