@@ -8,8 +8,8 @@ const TodoHomepage = () => {
   const [refresh, setRefresh] = useState(false);
 
   return (
-    <div className="px-16 pt-2">
-      <h1 className="font-poppins text-4xl font-bold">Tasks</h1>
+    <div className="px-8 md:px-16 pt-2">
+      <h1 className="font-poppins text-3xl md:text-4xl font-bold">Tasks</h1>
       <p className="pl-1 text-gray-400">
         {" "}
         Write and manage your tasks easily...{" "}

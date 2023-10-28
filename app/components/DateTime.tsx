@@ -21,7 +21,7 @@ const DateTime = () => {
   return (
     <div>
       <p className="font-poppins text-sm font-bold tracking-wider">{date}</p>
-      <p className="font-poppins text-sm"> {time} </p>
+      <p className="font-poppins  text-sm"> {time} </p>
     </div>
   );
 };

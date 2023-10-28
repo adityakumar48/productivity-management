@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <nav className="container">
-      <div className="flex h-[10vh] items-center justify-between px-16 ">
+      <div className="md:flex  h-[10vh] my-5 md:my-0 items-center justify-between px-8 md:px-16 ">
         <div className="logo">
           <h1 className="text-xl font-bold font-poppins">
             {" "}
@@ -39,9 +39,9 @@ const Navbar = () => {
           </h1>
         </div>
 
-        <div className="logo flex items-center gap-4">
+        <div className="logo flex items-center md:pt-0 pt-5 md:flex-row justify-end md:justify-normal flex-row-reverse gap-4">
           <DateTime />
-          <div>
+          <div className="">
             {status === "authenticated" ? (
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
