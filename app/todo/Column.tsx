@@ -31,18 +31,16 @@ const Column = ({
   refresh,
 }: Props) => {
   useEffect(() => {
-    setRefresh(false);
+    setRefresh(true);
   }, [refresh]);
 
   // @ts-ignore
   const TimeStop = async ({ id }: { id: number }) => {
-    setRefresh(false);
-    const res = await axios.put(`/api/tasks/${id}`);
+    const res = await await axios.put(`/api/tasks/${id}`);
     setRefresh(true);
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
-    setRefresh(false);
     const res = await axios.patch(`/api/tasks/${id}`);
     setRefresh(true);
     setRefresh(false);
@@ -51,7 +49,6 @@ const Column = ({
   };
 
   const onDelte = async (id: number) => {
-    setRefresh(false);
     const res = await axios.delete(`/api/tasks/${id}`);
     setRefresh(true);
   };
