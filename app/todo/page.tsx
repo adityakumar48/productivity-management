@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import CreateTask from "./CreateTask";
 import ShowTask from "./ShowTask";
-import delay from "delay";
 
 const TodoHomepage = () => {
   const [userId, setUserId] = useState<string>("");

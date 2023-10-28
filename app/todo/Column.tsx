@@ -6,6 +6,7 @@ import { AiOutlineMinusCircle } from "react-icons/ai";
 import { BiRightArrowCircle } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
 import axios from "axios";
+import { TiTick } from "react-icons/ti";
 
 interface Props {
   data: Task[];
@@ -34,6 +35,8 @@ const Column = ({
     setRefresh(true);
   }, [refresh]);
 
+  const [click, setClick] = useState<boolean>(false);
+
   // @ts-ignore
   const TimeStop = async ({ id }: { id: number }) => {
     const res = await await axios.put(`/api/tasks/${id}`);
@@ -41,16 +44,23 @@ const Column = ({
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
+    setClick(true);
     const res = await axios.patch(`/api/tasks/${id}`);
     setRefresh(true);
     setRefresh(false);
     const res2 = await axios.post(`/api/tasks/${id}`);
     setRefresh(true);
+    setClick(false);
   };
 
   const onDelte = async (id: number) => {
     const res = await axios.delete(`/api/tasks/${id}`);
     setRefresh(true);
+  };
+
+  const markAsCompleted = async ({ id }: { id: number }) => {
+    console.log(id);
+    console.log("Mark As Read");
   };
 
   return (
@@ -83,15 +93,26 @@ const Column = ({
                       item.Status === "processing" ? (
                         <BiRightArrowCircle
                           onClick={() => TimeStop({ id: item.id })}
-                          className="text-lg text-green-600"
+                          className={`${
+                            click ? " cursor-not-allowed" : ""
+                          }text-lg text-green-600 cursor-pointer`}
                         />
                       ) : (
                         <BiRightArrowCircle
                           onClick={() => GotoProcessing({ id: item.id })}
-                          className="text-lg text-green-600"
+                          className={`${
+                            click ? " cursor-not-allowed" : ""
+                          } text-lg text-green-600 cursor-pointer`}
                         />
                       )
-                    ) : null}
+                    ) : (
+                      <TiTick
+                        onClick={() => markAsCompleted({ id: item.id })}
+                        className={`${
+                          click ? " cursor-not-allowed" : ""
+                        } text-lg text-green-600 cursor-pointer`}
+                      />
+                    )}
                   </span>
 
                   {/* Completed Time */}

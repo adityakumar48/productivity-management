@@ -128,7 +128,7 @@ const CreateTask = ({ setRefresh, userId }: Props) => {
           color="purple"
           type="submit"
           disabled={disable}
-          size={"3"}
+          size={"2"}
           mt={click ? "4" : "0"}
           className={`bg-purple-500 cursor-pointer font-poppins text-white px-3 py-2 rounded-md  `}
         >
