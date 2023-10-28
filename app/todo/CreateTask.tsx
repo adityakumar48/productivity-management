@@ -22,7 +22,7 @@ const CreateTask = ({ setRefresh, userId }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setRefresh(false);
     const res = await axios.post("/api/tasks", {
       Task: task,
       Status: status,

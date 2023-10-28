@@ -19,12 +19,15 @@ const TodoHomepage = () => {
   }, [refresh]);
 
   const fetchUser = async () => {
+    setRefresh(false);
     const res = await axios.get(`/api/users/${email}`);
     setUserId(res.data.id);
+    setRefresh(true);
     fetchTask(res.data.id);
   };
 
   const fetchTask = async (id: { id: string }) => {
+    setRefresh(false);
     const res = await axios.get(`/api/tasks/${id}`);
     setData(res.data);
     setRefresh(true);
