@@ -4,18 +4,21 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import TodoHomepage from "../todo/page";
 import HeroSection from "../components/HeroSection";
+import DashboardLoading from "./loading";
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
 
-  if (status == "loading") return <h1>Loading...</h1>;
+  if (status == "loading") return <DashboardLoading />;
 
   return (
     <>
       {status === "authenticated" ? (
-        <main className="flex">
-          <Sidebar />
-          <main className="w-[80%] ml-[20%]">
+        <main className="md:flex block">
+          <div>
+            <Sidebar />
+          </div>
+          <main className="md:w-[80%] md:ml-[20%]">
             <Navbar />
             <TodoHomepage />
           </main>

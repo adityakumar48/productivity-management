@@ -5,7 +5,7 @@ import Column from "./Column";
 import axios from "axios";
 import { Prisma, Task, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import delay from "delay";
+import TaskLoading from "./TaskLoading";
 
 interface Props {
   refresh: boolean;
@@ -27,14 +27,9 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
     setData(res.data);
   };
 
-  // call the fetch data function when the userId changes or the refresh state changes
   const todoItems = data?.filter((item) => item.Status === "todo");
   const processingItems = data?.filter((item) => item.Status === "processing");
   const completedItems = data?.filter((item) => item.Status === "completed");
-
-  // const tasks = await prisma.task.findMany();
-  // console.log(tasks);
-
   return (
     <div>
       <div className="pt-10">
