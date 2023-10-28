@@ -50,7 +50,7 @@ const Column = ({
     setTimeout(() => {
       fetchTask();
       setRefresh(true);
-    }, 3000);
+    }, 5000);
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
