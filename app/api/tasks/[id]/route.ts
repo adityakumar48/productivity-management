@@ -91,36 +91,49 @@ async function createTimer(status: string, taskId: string) {
 
     if (parseInt(taskId) === undefined || parseInt(taskId) === null) return;
     const timerInterval = setInterval(async () => {
-      const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // in seconds
+      try {
+        const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // in seconds
 
-      const hours = Math.floor(elapsedTime / 3600);
-      const minutes = Math.floor((elapsedTime % 3600) / 60);
-      const seconds = elapsedTime % 60;
+        const hours = Math.floor(elapsedTime / 3600);
+        const minutes = Math.floor((elapsedTime % 3600) / 60);
+        const seconds = elapsedTime % 60;
 
-      const formattedTime = `${hours}h:${minutes}m:${seconds}s`;
+        const formattedTime = `${hours}h:${minutes}m:${seconds}s`;
+        if (taskId === undefined || taskId === null) return;
 
-      await prisma.task.update({
-        where: {
-          id: parseInt(taskId),
-        },
-        data: {
-          Time: formattedTime,
-        },
-      });
+        const task = await prisma.task.findUnique({
+          where: {
+            id: parseInt(taskId),
+          },
+        });
 
-      const task = await prisma.task.findUnique({
-        where: {
-          id: parseInt(taskId),
-        },
-      });
-
-      if (task?.Status !== "processing") {
-        clearInterval(timerInterval);
+        if (task?.Status !== "processing") {
+          clearInterval(timerInterval);
+          saveToDatabase(formattedTime, taskId);
+        }
+        return formattedTime;
+      } catch (error) {
+        console.log(error);
       }
-      return formattedTime;
     }, 1000);
   }
 }
+
+const saveToDatabase = async (time: string, taskId: string) => {
+  try {
+    if (taskId === undefined || taskId === null) return;
+    await prisma.task.update({
+      where: {
+        id: parseInt(taskId),
+      },
+      data: {
+        Time: time,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export async function POST(
   request: NextRequest,
@@ -134,10 +147,7 @@ export async function POST(
     });
     // console.log(task?.Time);
     const res = createTimer(String(task?.Status), params.id);
-    console.log(res.then((res) => console.log(res)));
-
-    // create stopwatch if status is processing then start it timer 00h:00m:00s and save it to db and return it to client side
-    // if status is completed then stop timer and save it to db and return it to client side
+    // console.log(res.then((res) => console.log(res)));
 
     return NextResponse.json(task);
   } catch (err) {

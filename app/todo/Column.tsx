@@ -27,56 +27,31 @@ const Column = ({
   cardBgColor,
   textBgColor,
   setData,
-  refresh,
   setRefresh,
+  refresh,
 }: Props) => {
-  const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
-  const [timeStamp, setTimeStamp] = useState<number>(0);
-  var updatedMs = time.ms,
-    updatedS = time.s,
-    updatedM = time.m,
-    updatedH = time.h;
-
-  const run = () => {
-    if (updatedM === 60) {
-      updatedH++;
-      updatedM = 0;
-    }
-    if (updatedS === 60) {
-      updatedM++;
-      updatedS = 0;
-    }
-    if (updatedMs === 100) {
-      updatedS++;
-      updatedMs = 0;
-    }
-    updatedMs++;
-    // @ts-ignore
-    setData((prev) => {
-      return prev.map((item) => {
-        if (item.Status === "processing") {
-          return { ...item, time: `${updatedH}h:${updatedM}m:${updatedS}s` };
-        }
-        return item;
-      });
-    });
-
-    return setTime({ ms: updatedMs, s: updatedS, m: updatedM, h: updatedH });
-  };
+  useEffect(() => {
+    setRefresh(false);
+  }, [refresh]);
 
   // @ts-ignore
   const TimeStop = async ({ id }: { id: number }) => {
+    setRefresh(false);
     const res = await axios.put(`/api/tasks/${id}`);
     setRefresh(true);
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
+    setRefresh(false);
     const res = await axios.patch(`/api/tasks/${id}`);
+    setRefresh(true);
+    setRefresh(false);
     const res2 = await axios.post(`/api/tasks/${id}`);
     setRefresh(true);
   };
 
   const onDelte = async (id: number) => {
+    setRefresh(false);
     const res = await axios.delete(`/api/tasks/${id}`);
     setRefresh(true);
   };
@@ -127,21 +102,6 @@ const Column = ({
                     item.Time === "0" ? null : (
                       <span className="text-xs">{item.Time}</span>
                     )
-                  ) : null}
-
-                  {/* Processing Time */}
-                  {item.Status === "processing" ? (
-                    <>
-                      <span className="text-xs">
-                        {time.h >= 10 ? time.h : "0" + time.h}h:
-                      </span>
-                      <span className="text-xs">
-                        {time.m >= 10 ? time.m : "0" + time.m}m:
-                      </span>
-                      <span className="text-xs">
-                        {time.s >= 10 ? time.s : "0" + time.s}s
-                      </span>
-                    </>
                   ) : null}
                 </span>
               </li>
