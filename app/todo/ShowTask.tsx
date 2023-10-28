@@ -31,20 +31,20 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
   const processingItems = data?.filter((item) => item.Status === "processing");
   const completedItems = data?.filter((item) => item.Status === "completed");
   return (
-    <div>
+    <div className="h-auto">
       <div className="pt-10">
         <h1 className="text-2xl  font-poppins font-bold hover:underline duration-300 ease-in-out transition-all">
           Tasks List{" "}
         </h1>
       </div>
 
-      <div className="flex w-[90%]">
+      <div className="md:flex  md:w-[90%] pb-16">
         <Column
           refresh={refresh}
           setRefresh={setRefresh}
           data={todoItems}
           setData={setData}
-          className="w-1/3 px-4"
+          className="md:w-1/3 px-4"
           title="Task"
           primaryColor="text-gray-200 bg-slate-400"
           cardBgColor="bg-slate-200"
@@ -55,7 +55,7 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
           setRefresh={setRefresh}
           data={processingItems}
           setData={setData}
-          className="w-1/3 px-4"
+          className="md:w-1/3 px-4"
           title="Processing"
           primaryColor="text-neutral-600 bg-rose-200"
           cardBgColor="bg-rose-100"
@@ -66,7 +66,7 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
           setRefresh={setRefresh}
           data={completedItems}
           setData={setData}
-          className="w-1/3 px-4"
+          className="md:w-1/3 px-4"
           title="Completed"
           primaryColor="text-neutral-600  bg-purple-300"
           cardBgColor="bg-purple-100"
