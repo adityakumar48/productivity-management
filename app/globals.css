@@ -1,3 +1,55 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.heroLinear {
+  background: linear-gradient(
+    0.5turn,
+    rgba(137, 99, 233, 0.5),
+    rgba(131, 82, 253, 10%)
+  );
+}
+
+.card {
+  background: rgba(122, 151, 225, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(9.5px);
+  -webkit-backdrop-filter: blur(9.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.aboutCardLinear {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 122, 255, 100%),
+    rgba(80, 164, 255, 100%)
+  );
+}
+
+.taskManager {
+  background: linear-gradient(to bottom, #da5f94, #9356d0);
+}
+
+.techniqueTimer {
+  background: linear-gradient(50deg, #ff8570, #f9504a);
+}
+
+.notes {
+  background: linear-gradient(50deg, #4316db, #9076e7);
+}
+
+.statistics {
+  background: linear-gradient(to bottom, #343563, #4926ad);
+}
+
+.reminders {
+  background: linear-gradient(to bottom, #2fb8ff, #9eecd9);
+}
+
+.features {
+  background-image: url("/Waves.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+}

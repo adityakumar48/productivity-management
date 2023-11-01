@@ -3,8 +3,8 @@ import { useSession } from "next-auth/react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import TodoHomepage from "../todo/page";
-import HeroSection from "../components/HeroSection";
 import DashboardLoading from "./loading";
+import LandingPage from "../components/LandingPage/LandingPage";
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -24,7 +24,7 @@ export default function Dashboard() {
           </main>
         </main>
       ) : (
-        <HeroSection />
+        <LandingPage />
       )}
     </>
   );
