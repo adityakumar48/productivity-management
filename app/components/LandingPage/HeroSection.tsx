@@ -6,9 +6,9 @@ import Image from "next/image";
 const HeroSection = () => {
   return (
     <div className="pt-[10vh] heroLinear ">
-      <div className="flex h-[90vh] max-h-[90vh] justify-between  w-full items-center px-20">
-        <div className="flex-1 pl-8">
-          <div className="text-7xl text-neutral-800  font-extrabold font-poppins leading-tight">
+      <div className="md:flex  md:h-[90vh]  md:max-h-[90vh] justify-between  w-full md:flex-row flex-row-reverse  items-center flex-wrap px-8 md:px-20">
+        <div className="flex-1 md:pl-8">
+          <div className="text-4xl md:text-7xl text-neutral-800  font-extrabold font-poppins leading-tight">
             <h1>
               <span>Your</span> Time.
             </h1>
@@ -50,7 +50,7 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 ">
+        <div className="flex-1 md:py-0  py-12 ">
           {/* Right Side */}
           <Image
             width={500}
@@ -60,7 +60,7 @@ const HeroSection = () => {
             src="/Right side Img.png"
             style={{ objectFit: "contain" }}
             alt="logo"
-            className="w-full"
+            className="w-full max-w-[500px]"
           />
         </div>
       </div>

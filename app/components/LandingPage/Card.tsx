@@ -19,7 +19,7 @@ const Card = ({
 }: Props) => {
   return (
     <div
-      className={`w-56 rounded-3xl py-4 px-4 shadow-sm drop-shadow-md shadow-[${shadowColor}] text-white ${linearGradientClass}`}
+      className={`w-56 rounded-3xl py-4 my-4 px-4 shadow-md drop-shadow-xl ${shadowColor} text-white ${linearGradientClass}`}
     >
       <Image
         src={image}
