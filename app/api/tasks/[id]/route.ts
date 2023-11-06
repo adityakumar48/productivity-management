@@ -48,10 +48,12 @@ export async function PATCH(
       },
       data: {
         Status: "processing",
+        Time: String(new Date().getTime()),
       },
     });
+    console.log(task.Time);
 
-    return NextResponse.json(task);
+    return NextResponse.json(task, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(error);
@@ -63,12 +65,15 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const body = await request.json();
+    console.log(body);
     const task = await prisma.task.update({
       where: {
         id: parseInt(params.id),
       },
       data: {
         Status: "completed",
+        Time: body.Time,
       },
     });
 
