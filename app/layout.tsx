@@ -12,8 +12,8 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 export const metadata: Metadata = {
-  title: "Productivity Manager",
-  description: " A productivity manager to manage your tasks and time. ",
+  title: "Productivity Hub",
+  description: " A productivity Hub to manage your tasks and time. ",
 };
 
 export default function RootLayout({
