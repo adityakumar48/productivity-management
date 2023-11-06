@@ -21,6 +21,14 @@ interface Props {
   fetchTask: () => void;
 }
 
+interface timers {
+  id: number;
+  elapsedTime: string;
+  Status: string;
+  Task: string;
+  Time: string;
+}
+
 const Column = ({
   data,
   className,
@@ -33,33 +41,59 @@ const Column = ({
   refresh,
   fetchTask,
 }: Props) => {
+  const [timers, setTimers] = useState<timers[]>([]);
+
   useEffect(() => {
-    setRefresh(false);
-  }, [refresh]);
+    const updateTimers = () => {
+      const currentTime = new Date().getTime();
+
+      const updatedTimers = data.map((item) => {
+        if (item.Status === "processing") {
+          const itemTime = parseInt(item.Time, 10);
+          const elapsedTime = currentTime - itemTime;
+
+          const hours = Math.floor(elapsedTime / 3600000);
+          const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+          const seconds = Math.floor((elapsedTime % 60000) / 1000);
+
+          return {
+            ...item,
+            elapsedTime: `${String(hours).padStart(2, "0")}:${String(
+              minutes
+            ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`,
+          };
+        }
+
+        return item;
+      });
+      // @ts-ignore
+      setTimers(updatedTimers);
+    };
+
+    const intervalId = setInterval(updateTimers, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [data]);
 
   const [click, setClick] = useState<boolean>(false);
-
   // @ts-ignore
-  const TimeStop = async ({ id }: { id: number }) => {
-    const res = await axios.put(`/api/tasks/${id}`).then((res) => {
-      console.log(res.data);
-      setRefresh(true);
+  const TimeStop = async ({ id, time }: { id: number; time: string }) => {
+    const res = await axios.put(`/api/tasks/${id}`, {
+      Time: time,
     });
-
-    // function call to fetch data again from database after 1 second
-    setTimeout(() => {
-      fetchTask();
-      setRefresh(true);
-    }, 5000);
+    setRefresh(true);
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
     setClick(true);
     const res = await axios.patch(`/api/tasks/${id}`);
-    const res2 = await axios.post(`/api/tasks/${id}`);
+    // const res2 = await axios.post(`/api/tasks/${id}`);
+
     setRefresh(true);
     setClick(false);
   };
+
+  // console.log(timeDifference());
 
   const onDelte = async (id: number) => {
     setRefresh(false);
@@ -81,8 +115,9 @@ const Column = ({
           {" "}
           {title}
         </Text>
+
         <ul>
-          {data.map((item) => {
+          {timers.map((item) => {
             return (
               <li
                 key={item.id}
@@ -101,14 +136,20 @@ const Column = ({
                     {item.Status !== "completed" ? (
                       item.Status === "processing" ? (
                         <BiRightArrowCircle
-                          onClick={() => TimeStop({ id: item.id })}
+                          onClick={() =>
+                            TimeStop({ id: item.id, time: item.elapsedTime })
+                          }
                           className={`${
                             click ? " cursor-not-allowed" : ""
                           }text-lg text-green-600 cursor-pointer`}
                         />
                       ) : (
                         <BiRightArrowCircle
-                          onClick={() => GotoProcessing({ id: item.id })}
+                          onClick={() =>
+                            GotoProcessing({
+                              id: item.id,
+                            })
+                          }
                           className={`${
                             click ? " cursor-not-allowed" : ""
                           } text-lg text-green-600 cursor-pointer`}
@@ -123,12 +164,16 @@ const Column = ({
                       />
                     )}
                   </span>
-
                   {/* Completed Time */}
+                  {item.Status === "processing" ? (
+                    <span className="text-xs">
+                      <p>{item.elapsedTime}</p>
+                    </span>
+                  ) : null}
                   {item.Status === "completed" ? (
-                    item.Time === "00:00" ? null : (
-                      <span className="text-xs">{item.Time}</span>
-                    )
+                    <span className="text-xs">
+                      <p>{item?.Time}</p>
+                    </span>
                   ) : null}
                 </span>
               </li>
