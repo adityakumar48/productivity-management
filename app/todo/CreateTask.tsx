@@ -80,7 +80,7 @@ const CreateTask = ({ setRefresh, userId }: Props) => {
             placeholder="Write Your tasks here..."
           />
         </TextField.Root>
-        {click && (
+        {/* {click && (
           <>
             <p className="my-2 pl-1  text-sm tracking-wider text-gray-400">
               priority
@@ -122,7 +122,7 @@ const CreateTask = ({ setRefresh, userId }: Props) => {
               </Flex>
             </RadioGroup.Root>
           </>
-        )}
+        )} */}
 
         <Button
           color="purple"
