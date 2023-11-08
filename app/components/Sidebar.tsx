@@ -16,9 +16,9 @@ const sidebarItems = [
       name: "Focus",
       data: [
         {
-          name: "Todo",
+          name: "Task",
           icon: LuListTodo,
-          href: "/todo",
+          href: "/task",
         },
         {
           name: "Notes",

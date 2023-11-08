@@ -11,9 +11,10 @@ datasource db {
 }
 
 enum TaskStatus {
-  todo
-  processing
-  completed
+  TASK
+  IN_PROCESSING
+  COMPLETED
+  MARK_AS_COMPLETED
 }
 
 model Account {
@@ -69,7 +70,7 @@ model VerificationToken {
 model Task {
   id        Int        @id @default(autoincrement())
   Task      String
-  Status    TaskStatus @default(todo)
+  Status    TaskStatus @default(TASK)
   Time      String     @default("00:00:00")
   createdAt DateTime   @default(now())
   updatedAt DateTime   @default(now()) @updatedAt

@@ -50,7 +50,7 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 md:py-0  py-12 ">
+        <div className="flex-1 md:py-0  py-12  ">
           {/* Right Side */}
           <Image
             width={500}
@@ -60,7 +60,7 @@ const HeroSection = () => {
             src="/Right side Img.png"
             style={{ objectFit: "contain" }}
             alt="logo"
-            className="w-full max-w-[500px]"
+            className="w-full   "
           />
         </div>
       </div>

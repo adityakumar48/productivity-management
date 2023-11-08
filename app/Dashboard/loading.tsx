@@ -8,9 +8,9 @@ const sidebarItems = [
       name: "Focus",
       data: [
         {
-          name: "Todo",
+          name: "Task",
 
-          href: "/todo",
+          href: "/Task",
         },
         {
           name: "Notes",
