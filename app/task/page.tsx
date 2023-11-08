@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import CreateTask from "./CreateTask";
 import ShowTask from "./ShowTask";
-
+export const dynamic = "force-dynamic";
 const TodoHomepage = () => {
   const [userId, setUserId] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
