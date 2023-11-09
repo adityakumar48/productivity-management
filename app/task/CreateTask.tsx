@@ -1,7 +1,6 @@
 "use client";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Spinner from "../components/Spinner";
@@ -34,7 +33,6 @@ const CreateTask = ({ setRefresh }: Props) => {
   const [task, setTask] = useState<string>("");
 
   const router = useRouter();
-  const { data: session } = useSession();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setClick(true);
@@ -50,7 +48,6 @@ const CreateTask = ({ setRefresh }: Props) => {
       const res = await axios.post("/api/tasks", {
         Task: task,
         Status: status,
-        email: session?.user?.email,
       });
 
       console.log(res.status);
@@ -66,6 +63,7 @@ const CreateTask = ({ setRefresh }: Props) => {
       setRefresh(true);
       router.push("/");
     } catch (error) {
+      console.log(error);
       console.log(error);
       toast.error("An UnExpected Error Occurred!", toastOptions);
       setDisable(false);

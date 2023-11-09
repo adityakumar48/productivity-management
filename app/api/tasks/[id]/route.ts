@@ -1,14 +1,16 @@
-import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  // ts-ignore
+  const userId = session?.user?.id;
   try {
     const tasks = await prisma.task.findMany({
       where: {
-        userId: params.id,
+        userId,
       },
     });
 

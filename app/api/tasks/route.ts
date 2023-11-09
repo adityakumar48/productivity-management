@@ -1,30 +1,37 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/prisma/client";
 import { taskSchema } from "../../ValidationSchemas";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
+import { TaskStatus } from "@prisma/client";
+
+interface Task {
+  Task: string;
+  Status: TaskStatus;
+}
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const validation = taskSchema.safeParse(body);
+    const session = await getServerSession(authOptions);
+    // ts-ignore
+    const userId = session?.user!.id;
+    console.log(userId);
 
     if (!validation.success) {
       return NextResponse.json(validation.error.format(), { status: 400 });
     }
 
-    const { Task, Status, email } = body;
+    const { Task, Status }: Task = body;
 
     // check if user exists
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-
+    // ts-ignore
     const newTask = await prisma.task.create({
       data: {
         Task,
         Status,
-        userId: user?.id!,
+        userId: session?.user!.id!,
       },
     });
 
@@ -42,16 +49,13 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();
-
-    const user = await prisma.user.findUnique({
-      where: {
-        email: body.email,
-      },
-    });
+    const session = await getServerSession(authOptions);
+    // ts-ignore
+    const userId = session?.user?.id;
 
     const tasks = await prisma.task.findMany({
       where: {
-        userId: user?.id,
+        userId,
       },
     });
 
