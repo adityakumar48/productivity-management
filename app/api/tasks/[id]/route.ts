@@ -5,7 +5,7 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
-
+  // ts-ignore
   const userId = session?.user?.id;
   try {
     const tasks = await prisma.task.findMany({
