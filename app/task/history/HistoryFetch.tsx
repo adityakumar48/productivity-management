@@ -2,7 +2,8 @@ import prisma from "@/prisma/client";
 import { Badge, Table } from "@radix-ui/themes";
 import React from "react";
 
-export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
 const HistoryFetch = async () => {
   const tasks = await prisma.task.findMany({
     where: {

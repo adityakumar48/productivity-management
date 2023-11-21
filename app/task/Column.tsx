@@ -7,6 +7,7 @@ import { AiFillEye, AiOutlineMinusCircle } from "react-icons/ai";
 import { BiRightArrowCircle, BiSolidSave } from "react-icons/bi";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import DeleteTask from "./DeleteTask";
 
 export const dynamic = "force-dynamic";
 
@@ -96,14 +97,6 @@ const Column = ({
 
   // console.log(timeDifference());
 
-  const onDelete = async (id: number) => {
-    // Confirmation Modal Needed
-
-    // Send Delete Reques
-    const res = await axios.delete(`/api/tasks/${id}`);
-    fetchTask();
-  };
-
   const markAsCompleted = async ({ id }: { id: number }) => {
     console.log(id);
     const res = await axios.post(`/api/tasks/${id}`);
@@ -144,11 +137,10 @@ const Column = ({
                             }text-lg  cursor-pointer`}
                             onClick={() => console.log("Click eye btn")}
                           />
-                          <AiOutlineMinusCircle
-                            className={`${
-                              click ? " cursor-not-allowed" : ""
-                            }text-lg  cursor-pointer`}
-                            onClick={() => onDelete(item.id)}
+                          <DeleteTask
+                            taskId={item.id}
+                            click={click}
+                            fetchTask={fetchTask}
                           />
                           <BiRightArrowCircle
                             className={`${
@@ -166,11 +158,10 @@ const Column = ({
                             }text-lg  cursor-pointer`}
                             onClick={() => console.log("Click eye btn")}
                           />
-                          <AiOutlineMinusCircle
-                            className={`${
-                              click ? " cursor-not-allowed" : ""
-                            }text-lg  cursor-pointer`}
-                            onClick={() => onDelete(item.id)}
+                          <DeleteTask
+                            taskId={item.id}
+                            click={click}
+                            fetchTask={fetchTask}
                           />
                           <BiRightArrowCircle
                             onClick={() =>
@@ -190,11 +181,10 @@ const Column = ({
                             }text-lg  cursor-pointer`}
                             onClick={() => console.log("Click eye btn")}
                           />
-                          <AiOutlineMinusCircle
-                            className={`${
-                              click ? " cursor-not-allowed" : ""
-                            }text-lg  cursor-pointer`}
-                            onClick={() => onDelete(item.id)}
+                          <DeleteTask
+                            taskId={item.id}
+                            click={click}
+                            fetchTask={fetchTask}
                           />
                           <BiSolidSave
                             onClick={() => markAsCompleted({ id: item.id })}
