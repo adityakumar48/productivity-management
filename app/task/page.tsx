@@ -2,10 +2,32 @@
 import React, { useEffect, useState } from "react";
 import CreateTask from "./CreateTask";
 import ShowTask from "./ShowTask";
+import { Task } from "@prisma/client";
+import axios from "axios";
 export const dynamic = "force-dynamic";
+
 const TodoHomepage = () => {
-  const [userId, setUserId] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
+  const [data, setData] = useState<Task[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // Api Endpoint to fetch data
+  const fetchTask = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.patch(`/api/tasks`);
+      setData(res.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  // For First Time Fetching Data
+  useEffect(() => {
+    fetchTask();
+  }, []);
 
   return (
     <div className="px-8 md:px-16 pt-2">
@@ -15,14 +37,17 @@ const TodoHomepage = () => {
         Write and manage your tasks easily...{" "}
       </p>
       <div>
-        <CreateTask
-          setRefresh={setRefresh}
-          setUserId={setUserId}
-          userId={userId}
-        />
+        <CreateTask fetchTask={fetchTask} />
         <hr className="mt-10 w-[70%] mx-auto " />
       </div>
-      <ShowTask refresh={refresh} setRefresh={setRefresh} />
+      <ShowTask
+        loading={loading}
+        refresh={refresh}
+        data={data}
+        fetchTask={fetchTask}
+        setData={setData}
+        setRefresh={setRefresh}
+      />
     </div>
   );
 };

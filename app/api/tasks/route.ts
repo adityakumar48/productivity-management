@@ -48,7 +48,6 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const body = await request.json();
     const session = await getServerSession(authOptions);
     // ts-ignore
     const userId = session?.user?.id;
