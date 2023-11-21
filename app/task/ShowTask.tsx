@@ -36,7 +36,6 @@ const ShowTask = ({
         <h1 className="text-2xl font-poppins font-bold hover:underline duration-300 ease-in-out transition-all">
           Tasks List{" "}
         </h1>
-
         <Link
           href="/task/history"
           className="md:pr-32 py-2 flex items-center gap-2 text-neutral-500 "
