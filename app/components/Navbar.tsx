@@ -1,9 +1,7 @@
 "use client";
-import Image from "next/image";
-import React, { useState } from "react";
-import DateTime from "./DateTime";
-import { useSession } from "next-auth/react";
 import { Avatar, DropdownMenu, Text } from "@radix-ui/themes";
+import { useSession } from "next-auth/react";
+import DateTime from "./DateTime";
 
 const Navbar = () => {
   const greetingData = [

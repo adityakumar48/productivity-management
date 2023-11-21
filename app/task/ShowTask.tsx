@@ -1,36 +1,29 @@
 "use client";
 import { Task } from "@prisma/client";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
-import Column from "./Column";
-import { GoHistory } from "react-icons/go";
 import Link from "next/link";
+import React from "react";
+import { GoHistory } from "react-icons/go";
+import Column from "./Column";
 
 interface Props {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+  data: Task[];
+  loading: boolean;
+  setData: React.Dispatch<React.SetStateAction<Task[]>>;
+  fetchTask: () => void;
 }
 
 export const dynamic = "force-dynamic";
-const ShowTask = ({ refresh, setRefresh }: Props) => {
-  const { data: session } = useSession();
-  const [data, setData] = useState<Task[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchTask = async () => {
-      setLoading(true);
-      const email = session?.user?.email;
-      const res = await axios.patch(`/api/tasks`, { email });
-      setData(res.data);
-      setLoading(false);
-    };
-
-    fetchTask();
-    setRefresh(false);
-  }, [refresh]);
-
+const ShowTask = ({
+  refresh,
+  loading,
+  setRefresh,
+  data,
+  setData,
+  fetchTask,
+}: Props) => {
   const todoItems = data?.filter((item) => item.Status === "TASK");
   const processingItems = data?.filter(
     (item) => item.Status === "IN_PROCESSING"
@@ -55,6 +48,7 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
 
       <div className="md:flex md:w-[90%] pb-16">
         <Column
+          fetchTask={fetchTask}
           refresh={refresh}
           setRefresh={setRefresh}
           data={todoItems}
@@ -67,6 +61,7 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
           loading={loading}
         />
         <Column
+          fetchTask={fetchTask}
           refresh={refresh}
           setRefresh={setRefresh}
           data={processingItems}
@@ -79,6 +74,7 @@ const ShowTask = ({ refresh, setRefresh }: Props) => {
           loading={loading}
         />
         <Column
+          fetchTask={fetchTask}
           refresh={refresh}
           setRefresh={setRefresh}
           data={completedItems}

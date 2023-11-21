@@ -9,9 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { TaskStatus } from "@prisma/client";
 
 interface Props {
-  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
-  setUserId: React.Dispatch<React.SetStateAction<any>>;
-  userId: string;
+  fetchTask: () => void;
 }
 
 const toastOptions: Object = {
@@ -26,7 +24,7 @@ const toastOptions: Object = {
 };
 
 export const dynamic = "force-dynamic";
-const CreateTask = ({ setRefresh }: Props) => {
+const CreateTask = ({ fetchTask }: Props) => {
   const [click, setClick] = useState<boolean>(false);
   const [status, setStatus] = useState<TaskStatus>("TASK");
   const [disable, setDisable] = useState<boolean>(false);
@@ -44,13 +42,11 @@ const CreateTask = ({ setRefresh }: Props) => {
       e.preventDefault();
       setDisable(true);
 
-      //
+      // Api Endpoint to add data
       const res = await axios.post("/api/tasks", {
         Task: task,
         Status: status,
       });
-
-      console.log(res.status);
 
       if (res.status === 201) {
         toast.success("😀Task Added Successfully", toastOptions);
@@ -60,7 +56,7 @@ const CreateTask = ({ setRefresh }: Props) => {
       setTask("");
       setStatus("TASK");
       setClick(false);
-      setRefresh(true);
+      fetchTask();
       router.push("/");
     } catch (error) {
       console.log(error);

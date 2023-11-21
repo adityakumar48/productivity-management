@@ -21,6 +21,7 @@ interface Props {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
+  fetchTask: () => void;
 }
 
 interface timers {
@@ -31,9 +32,11 @@ interface timers {
   Time: string;
   loading: boolean;
   createdAt: string;
+  fetchTask: () => void;
 }
 
 const Column = ({
+  fetchTask,
   data,
   className,
   title,
@@ -77,21 +80,18 @@ const Column = ({
   }, [data]);
 
   const [click, setClick] = useState<boolean>(false);
+
   // @ts-ignore
   const TimeStop = async ({ id, time }: { id: number; time: string }) => {
     const res = await axios.put(`/api/tasks/${id}`, {
       Time: time,
     });
-    setRefresh(true);
+    fetchTask();
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
-    setClick(true);
     const res = await axios.patch(`/api/tasks/${id}`);
-    // const res2 = await axios.post(`/api/tasks/${id}`);
-
-    setRefresh(true);
-    setClick(false);
+    fetchTask();
   };
 
   // console.log(timeDifference());
@@ -100,15 +100,14 @@ const Column = ({
     // Confirmation Modal Needed
 
     // Send Delete Reques
-    setRefresh(false);
     const res = await axios.delete(`/api/tasks/${id}`);
-    setRefresh(true);
+    fetchTask();
   };
 
   const markAsCompleted = async ({ id }: { id: number }) => {
     console.log(id);
     const res = await axios.post(`/api/tasks/${id}`);
-    setRefresh(true);
+    fetchTask();
   };
 
   return (
