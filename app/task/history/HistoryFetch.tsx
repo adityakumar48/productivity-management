@@ -29,7 +29,7 @@ const HistoryFetch = async () => {
               <Table.Cell>
                 <Badge color="violet">Completed</Badge>
               </Table.Cell>
-              <Table.Cell>{task.createdAt.toDateString()}</Table.Cell>
+              <Table.Cell>{task.createdAt.toLocaleString()}</Table.Cell>
               <Table.Cell>{task.Time}</Table.Cell>
             </Table.Row>
           ))}
