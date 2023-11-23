@@ -50,19 +50,6 @@ const CreateTask = ({ fetchTask, setData }: Props) => {
         setDisable(false);
         return;
       }
-      // @ts-ignore
-      setData((prev) => {
-        return [
-          ...prev,
-          {
-            Task: task,
-            Status: status,
-            createdAt: new Date().toISOString(),
-            id: Math.floor(Math.random() * 1000),
-            Time: new Date().getTime().toString(),
-          },
-        ];
-      });
 
       // Api Endpoint to add data
       const res = await axios.post("/api/tasks", {
@@ -77,6 +64,7 @@ const CreateTask = ({ fetchTask, setData }: Props) => {
       setDisable(false);
       setTask("");
       setStatus("TASK");
+      fetchTask();
       setClick(false);
       router.push("/");
     } catch (error) {

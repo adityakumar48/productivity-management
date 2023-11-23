@@ -57,6 +57,12 @@ const OpenModal = ({ click, item, setData }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
+      const res = await axios.patch(`/api/tasks/update/${item.id}`, {
+        Task: task,
+        description: description,
+        priority: priority,
+      });
+
       setData?.((prev) =>
         prev.map((item) => {
           if (item.id === item.id) {
@@ -71,11 +77,6 @@ const OpenModal = ({ click, item, setData }: Props) => {
         })
       );
 
-      const res = await axios.patch(`/api/tasks/update/${item.id}`, {
-        Task: task,
-        description: description,
-        priority: priority,
-      });
       console.log(res.data);
     } catch (error) {
       console.log(error);
