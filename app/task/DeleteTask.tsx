@@ -46,7 +46,11 @@ const DeleteTask = ({
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button color="red" onClick={() => onDelete(taskId)}>
+            <Button
+              color="red"
+              className={`bg-rose-500 hover:bg-rose-700 cursor-pointer font-poppins text-white px-3 py-3 rounded-md  `}
+              onClick={() => onDelete(taskId)}
+            >
               Delete
             </Button>
           </AlertDialog.Action>

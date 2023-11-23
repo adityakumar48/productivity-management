@@ -111,7 +111,7 @@ const CreateTask = ({ fetchTask, setData }: Props) => {
             disabled={disable}
             size={"2"}
             mt={click ? "4" : "0"}
-            className={`bg-purple-500 cursor-pointer font-poppins text-white px-3 py-2 rounded-md  `}
+            className={`bg-purple-500 hover:bg-purple-700 cursor-pointer font-poppins text-white px-3 py-3 rounded-md  `}
           >
             Add Task {disable && <Spinner />}
           </Button>
