@@ -76,7 +76,6 @@ const CreateTask = ({ fetchTask, setData }: Props) => {
       setTask("");
       setStatus("TASK");
       setClick(false);
-      fetchTask();
       router.push("/");
     } catch (error) {
       console.log(error);
