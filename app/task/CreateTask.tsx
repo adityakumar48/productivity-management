@@ -55,6 +55,9 @@ const CreateTask = ({ fetchTask, setData }: Props) => {
           {
             Task: task,
             Status: status,
+            createdAt: new Date().toISOString(),
+            id: Math.floor(Math.random() * 1000),
+            Time: new Date().getTime().toString(),
           },
         ];
       });
