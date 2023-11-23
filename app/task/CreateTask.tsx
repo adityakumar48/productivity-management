@@ -6,10 +6,11 @@ import React, { useState } from "react";
 import Spinner from "../components/Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { TaskStatus } from "@prisma/client";
+import { Task, TaskStatus } from "@prisma/client";
 
 interface Props {
   fetchTask: () => void;
+  setData?: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
 const toastOptions: Object = {
@@ -24,7 +25,7 @@ const toastOptions: Object = {
 };
 
 export const dynamic = "force-dynamic";
-const CreateTask = ({ fetchTask }: Props) => {
+const CreateTask = ({ fetchTask, setData }: Props) => {
   const [click, setClick] = useState<boolean>(false);
   const [status, setStatus] = useState<TaskStatus>("TASK");
   const [disable, setDisable] = useState<boolean>(false);
@@ -41,6 +42,22 @@ const CreateTask = ({ fetchTask }: Props) => {
     try {
       e.preventDefault();
       setDisable(true);
+
+      if (task === "") {
+        toast.error("Task cannot be empty!", toastOptions);
+        setDisable(false);
+        return;
+      }
+      // @ts-ignore
+      setData((prev) => {
+        return [
+          ...prev,
+          {
+            Task: task,
+            Status: status,
+          },
+        ];
+      });
 
       // Api Endpoint to add data
       const res = await axios.post("/api/tasks", {

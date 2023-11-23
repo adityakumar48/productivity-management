@@ -1,24 +1,29 @@
 "use client";
+import { Task } from "@prisma/client";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import React from "react";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 
+export const dynamic = "force-dynamic";
+
 const DeleteTask = ({
+  setData,
   taskId,
-  fetchTask,
   click,
 }: {
   taskId: number;
   fetchTask: () => void;
   click: boolean;
+  setData: React.Dispatch<React.SetStateAction<Task[]>>;
 }) => {
   const onDelete = async (id: number) => {
-    // Confirmation Modal Needed
+    setData((prev) => {
+      return prev.filter((item) => item.id !== id);
+    });
 
     // Send Delete Request
     const res = await axios.delete(`/api/tasks/${id}`);
-    fetchTask();
   };
   return (
     <AlertDialog.Root>
