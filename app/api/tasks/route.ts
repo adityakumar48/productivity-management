@@ -15,9 +15,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validation = taskSchema.safeParse(body);
     const session = await getServerSession(authOptions);
-    // ts-ignore
-    const userId = session?.user!.id;
-    console.log(userId);
 
     if (!validation.success) {
       return NextResponse.json(validation.error.format(), { status: 400 });
