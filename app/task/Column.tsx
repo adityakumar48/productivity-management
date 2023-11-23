@@ -3,7 +3,6 @@ import { Task, TaskStatus } from "@prisma/client";
 import { Text } from "@radix-ui/themes";
 import axios from "axios";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { AiFillEye, AiOutlineMinusCircle } from "react-icons/ai";
 import { BiRightArrowCircle, BiSolidSave } from "react-icons/bi";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";

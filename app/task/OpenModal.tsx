@@ -60,7 +60,12 @@ const OpenModal = ({ click, item, setData }: Props) => {
       setData?.((prev) =>
         prev.map((item) => {
           if (item.id === item.id) {
-            return { ...item, Task: task };
+            return {
+              ...item,
+              Task: task,
+              description: description,
+              priority: priority,
+            };
           }
           return item;
         })
