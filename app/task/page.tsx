@@ -28,6 +28,7 @@ const TodoHomepage = () => {
   useEffect(() => {
     fetchTask();
   }, []);
+  console.log(data);
 
   return (
     <div className="px-8 md:px-16 pt-2">
@@ -37,7 +38,7 @@ const TodoHomepage = () => {
         Write and manage your tasks easily...{" "}
       </p>
       <div>
-        <CreateTask fetchTask={fetchTask} />
+        <CreateTask fetchTask={fetchTask} setData={setData} />
         <hr className="mt-10 w-[70%] mx-auto " />
       </div>
       <ShowTask

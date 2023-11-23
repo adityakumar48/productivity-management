@@ -44,10 +44,12 @@ const Column = ({
   primaryColor,
   cardBgColor,
   textBgColor,
-  setRefresh,
+  setData,
   loading,
 }: Props) => {
   const [timers, setTimers] = useState<timers[]>([]);
+
+  // Checking time difference
   useEffect(() => {
     const updateTimers = () => {
       const currentTime = new Date().getTime();
@@ -91,16 +93,40 @@ const Column = ({
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
+    // @ts-ignore
+    setData((prev) => {
+      return prev?.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            Status: "IN_PROCESSING",
+            Time: new Date().getTime().toString(),
+          };
+        }
+        return item;
+      });
+    });
+
     const res = await axios.patch(`/api/tasks/${id}`);
-    fetchTask();
   };
 
   // console.log(timeDifference());
 
   const markAsCompleted = async ({ id }: { id: number }) => {
-    console.log(id);
+    // @ts-ignore
+    setData((prev) => {
+      return prev?.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            Status: "COMPLETED",
+          };
+        }
+        return item;
+      });
+    });
+
     const res = await axios.post(`/api/tasks/${id}`);
-    fetchTask();
   };
 
   return (
@@ -138,6 +164,8 @@ const Column = ({
                             onClick={() => console.log("Click eye btn")}
                           />
                           <DeleteTask
+                            // @ts-ignore
+                            setData={setData}
                             taskId={item.id}
                             click={click}
                             fetchTask={fetchTask}
@@ -159,6 +187,8 @@ const Column = ({
                             onClick={() => console.log("Click eye btn")}
                           />
                           <DeleteTask
+                            // @ts-ignore
+                            setData={setData}
                             taskId={item.id}
                             click={click}
                             fetchTask={fetchTask}
@@ -182,6 +212,8 @@ const Column = ({
                             onClick={() => console.log("Click eye btn")}
                           />
                           <DeleteTask
+                            // @ts-ignore
+                            setData={setData}
                             taskId={item.id}
                             click={click}
                             fetchTask={fetchTask}
