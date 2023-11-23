@@ -86,10 +86,23 @@ const Column = ({
 
   // @ts-ignore
   const TimeStop = async ({ id, time }: { id: number; time: string }) => {
+    // @ts-ignore
+    setData((prev) => {
+      return prev?.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            Status: "COMPLETED",
+            Time: time,
+          };
+        }
+        return item;
+      });
+    });
+
     const res = await axios.put(`/api/tasks/${id}`, {
       Time: time,
     });
-    fetchTask();
   };
 
   const GotoProcessing = async ({ id }: { id: number }) => {
@@ -115,17 +128,8 @@ const Column = ({
   const markAsCompleted = async ({ id }: { id: number }) => {
     // @ts-ignore
     setData((prev) => {
-      return prev?.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            Status: "COMPLETED",
-          };
-        }
-        return item;
-      });
+      return prev?.filter((item) => item.id !== id);
     });
-
     const res = await axios.post(`/api/tasks/${id}`);
   };
 
