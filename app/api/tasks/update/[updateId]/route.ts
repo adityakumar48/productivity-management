@@ -8,6 +8,7 @@ export async function PATCH(
   try {
     const body = await request.json();
     const { Task, description, priority } = body;
+    console.log(params);
 
     const taskUpdate = await prisma.task.update({
       where: {
