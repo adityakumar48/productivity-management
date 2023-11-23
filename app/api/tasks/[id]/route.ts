@@ -53,7 +53,6 @@ export async function PATCH(
         Time: String(new Date().getTime()),
       },
     });
-    console.log(task.Time);
 
     return NextResponse.json(task, { status: 200 });
   } catch (error) {
@@ -68,7 +67,6 @@ export async function PUT(
 ) {
   try {
     const body = await request.json();
-    console.log(body);
     const task = await prisma.task.update({
       where: {
         id: parseInt(params.id),

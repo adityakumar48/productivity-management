@@ -28,7 +28,6 @@ const TodoHomepage = () => {
   useEffect(() => {
     fetchTask();
   }, []);
-  console.log(data);
 
   return (
     <div className="px-8 md:px-16 pt-2">

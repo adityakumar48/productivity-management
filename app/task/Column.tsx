@@ -8,6 +8,7 @@ import { BiRightArrowCircle, BiSolidSave } from "react-icons/bi";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import DeleteTask from "./DeleteTask";
+import OpenModal from "./OpenModal";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +35,8 @@ interface timers {
   loading: boolean;
   createdAt: string;
   fetchTask: () => void;
+  description: string;
+  priority: string;
 }
 
 const Column = ({
@@ -123,8 +126,6 @@ const Column = ({
     const res = await axios.patch(`/api/tasks/${id}`);
   };
 
-  // console.log(timeDifference());
-
   const markAsCompleted = async ({ id }: { id: number }) => {
     // @ts-ignore
     setData((prev) => {
@@ -161,11 +162,10 @@ const Column = ({
                     <span className="flex-wrap gap-2 flex flex-row">
                       {item.Status === "TASK" && (
                         <>
-                          <AiFillEye
-                            className={`${
-                              click ? " cursor-not-allowed" : ""
-                            }text-lg  cursor-pointer`}
-                            onClick={() => console.log("Click eye btn")}
+                          <OpenModal
+                            click={click}
+                            item={item}
+                            setData={setData}
                           />
                           <DeleteTask
                             // @ts-ignore
@@ -184,11 +184,10 @@ const Column = ({
                       )}
                       {item.Status === "IN_PROCESSING" && (
                         <>
-                          <AiFillEye
-                            className={`${
-                              click ? " cursor-not-allowed" : ""
-                            }text-lg  cursor-pointer`}
-                            onClick={() => console.log("Click eye btn")}
+                          <OpenModal
+                            click={click}
+                            item={item}
+                            setData={setData}
                           />
                           <DeleteTask
                             // @ts-ignore
@@ -209,11 +208,10 @@ const Column = ({
                       )}
                       {item.Status === "COMPLETED" && (
                         <>
-                          <AiFillEye
-                            className={`${
-                              click ? " cursor-not-allowed" : ""
-                            }text-lg  cursor-pointer`}
-                            onClick={() => console.log("Click eye btn")}
+                          <OpenModal
+                            click={click}
+                            item={item}
+                            setData={setData}
                           />
                           <DeleteTask
                             // @ts-ignore

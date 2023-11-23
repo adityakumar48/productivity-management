@@ -25,6 +25,7 @@
     "react": "^18",
     "react-beautiful-dnd": "^13.1.1",
     "react-compound-timer": "^2.0.5",
+    "react-datepicker": "^4.23.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18",
@@ -38,6 +39,7 @@
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-datepicker": "^4.19.3",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
     "encoding": "^0.1.13",
