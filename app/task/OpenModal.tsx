@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { CgMoveTask } from "react-icons/cg";
 import DateTimePicker from "../components/DateTimePicker";
@@ -40,6 +40,7 @@ const OpenModal = ({ click, item, setData }: Props) => {
   const [task, setTask] = React.useState(item.Task);
   const [description, setDescription] = React.useState(item.Task);
   const [priority, setPriority] = React.useState("none");
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     // Update the state whenever the user types on the input field
@@ -210,7 +211,10 @@ const OpenModal = ({ click, item, setData }: Props) => {
                   />
                 </TextField.Root>
 
-                <DateTimePicker />
+                <DateTimePicker
+                  startDate={startDate}
+                  setStartDate={setStartDate}
+                />
               </>
             )}
           </Flex>

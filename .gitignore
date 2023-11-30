@@ -37,3 +37,10 @@ next-env.d.ts
 
 # Sentry Config File
 .sentryclirc
+
+.react-email/
+
+# Job Runner
+JobRunner/node_modules
+JobRunner/.env
+JobRunner/package-lock.json

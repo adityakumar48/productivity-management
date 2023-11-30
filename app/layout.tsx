@@ -4,6 +4,8 @@ import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import AuthProvider from "./auth/Provider";
+import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,7 +27,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.variable}>
         <AuthProvider>
-          <Theme>{children}</Theme>
+          <Theme>
+            {" "}
+            <main className="md:flex block">
+              <div>
+                <Sidebar />
+              </div>
+              <main className="md:w-[80%] md:ml-[20%]">
+                <Navbar />
+                {children}
+              </main>
+            </main>
+          </Theme>
         </AuthProvider>
       </body>
     </html>
