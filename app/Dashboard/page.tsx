@@ -11,21 +11,5 @@ export default function Dashboard() {
 
   if (status == "loading") return <DashboardLoading />;
 
-  return (
-    <>
-      {status === "authenticated" ? (
-        <main className="md:flex block">
-          <div>
-            <Sidebar />
-          </div>
-          <main className="md:w-[80%] md:ml-[20%]">
-            <Navbar />
-            <TodoHomepage />
-          </main>
-        </main>
-      ) : (
-        <LandingPage />
-      )}
-    </>
-  );
+  return <>{status === "authenticated" ? <TodoHomepage /> : <LandingPage />}</>;
 }

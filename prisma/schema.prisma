@@ -45,18 +45,19 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String     @unique
   emailVerified DateTime?
   image         String?
-  isAdmin       Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
+  isAdmin       Boolean    @default(false)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @default(now()) @updatedAt
   Tasks         Task[]
   Contacts      Contact[]
   accounts      Account[]
   sessions      Session[]
+  reminders     Reminder[]
 }
 
 model VerificationToken {
@@ -90,4 +91,19 @@ model Contact {
   updatedAt DateTime @updatedAt
   userId    String
   User      User     @relation(fields: [userId], references: [id])
+}
+
+model Reminder {
+  id          String   @id @default(cuid())
+  Title       String
+  Description String?
+  Email       String?
+  Time        String?
+  Type        String?
+  Status      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String?
+  userId      String
+  User        User     @relation(fields: [userId], references: [id])
 }

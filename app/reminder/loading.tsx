@@ -99,7 +99,7 @@ export const ItemHeading = (props: SidebarProps) => {
   );
 };
 
-const DashboardLoading = () => {
+const ReminderLoading = () => {
   return (
     <>
       <main className="flex">
@@ -168,4 +168,4 @@ const DashboardLoading = () => {
   );
 };
 
-export default DashboardLoading;
+export default ReminderLoading;
