@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import runTasks from "@/app/services/reminderService";
+import axios from "axios";
 
 // Create A Reminder
 export async function POST(request: NextRequest) {
@@ -25,6 +26,7 @@ export async function POST(request: NextRequest) {
       },
     });
     console.log(`Reminder Created :- ${reminder.Title}`);
+    // await axios.post("http://localhost:8000/", reminder);
 
     return NextResponse.json(reminder, { status: 201 });
   } catch (error) {
@@ -33,14 +35,20 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  let flag = false;
-  if (flag === false) {
-    runTasks();
-    flag = true;
-  } else {
-    flag = false;
-    console.log("Already Running");
-  }
+  try {
+    const session = await getServerSession(authOptions);
+    console.log(session?.user?.id);
 
-  return NextResponse.json({});
+    // Get all reminders
+    const reminders = await prisma.reminder.findMany({
+      where: {
+        userId: session?.user?.id,
+      },
+    });
+
+    return NextResponse.json(reminders, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json("Something Went Wrong", { status: 500 });
+  }
 }
