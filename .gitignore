@@ -44,3 +44,7 @@ next-env.d.ts
 JobRunner/node_modules
 JobRunner/.env
 JobRunner/package-lock.json
+
+
+# node app
+sendMailerServiceNodeApp

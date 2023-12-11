@@ -8,11 +8,15 @@ import {
   TextArea,
 } from "@radix-ui/themes";
 import React, { useState } from "react";
-import DateTimePicker from "../components/DateTimePicker";
+import DateTimePicker from "../../components/DateTimePicker";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 
-const CreateReminder = () => {
+interface Props {
+  fetchData: () => void;
+}
+
+const CreateReminder = ({ fetchData }: Props) => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const { data: session, status } = useSession();
   const [title, setTitle] = useState<string>("");
@@ -20,6 +24,12 @@ const CreateReminder = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
+      // check startDate is not a previous date and time
+      if (startDate! < new Date()) {
+        alert("Please select a valid date and time");
+        return;
+      }
+
       console.log("hello");
       const res = await axios.post("/api/reminder", {
         title,
@@ -27,12 +37,13 @@ const CreateReminder = () => {
         time: startDate,
         email: session?.user.email,
         type: "Email",
-        status: "Active",
+        status: "Pending",
       });
       console.log(res);
       setTitle("");
       setDescription("");
       setStartDate(new Date());
+      fetchData();
     } catch (error) {
       console.log(error);
     }
@@ -41,9 +52,13 @@ const CreateReminder = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <button className="px-4 py-2 rounded-md bg-purple-500 text-white ">
+        <Button
+          variant="solid"
+          color="purple"
+          className="px-4 py-2 rounded-md cursor-pointer bg-purple-500 text-white "
+        >
           Create Reminder
-        </button>
+        </Button>
       </Dialog.Trigger>
 
       <Dialog.Content style={{ maxWidth: 450 }}>
@@ -113,8 +128,8 @@ const CreateReminder = () => {
             <Button
               variant="solid"
               type="submit"
+              color="purple"
               className="bg-purple-400"
-              // click to submit the form and close the dialog
               onClick={() => {
                 // @ts-ignore
                 handleSubmit();
