@@ -122,7 +122,7 @@ const DashboardLoading = () => {
           </aside>
         </aside>
 
-        <main className="w-[70%] ">
+        <main className="w-[70%] ml-[20%] ">
           <div className="mx-16 h-[10vh] w-full flex justify-between items-center ">
             <Skeleton width={100} height={25} />
             <div className="flex">

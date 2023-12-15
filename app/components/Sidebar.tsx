@@ -26,9 +26,9 @@ const sidebarItems = [
           href: "/notes",
         },
         {
-          name: "Calendar",
+          name: "Habit Tracker",
           icon: AiOutlineCalendar,
-          href: "/calendar",
+          href: "/habit",
         },
       ],
     },

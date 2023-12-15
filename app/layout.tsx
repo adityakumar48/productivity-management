@@ -6,6 +6,7 @@ import { Theme } from "@radix-ui/themes";
 import AuthProvider from "./auth/Provider";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+import Auth from "./Auth";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   description: " A productivity Hub to manage your tasks and time. ",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -28,16 +29,7 @@ export default function RootLayout({
       <body className={poppins.variable}>
         <AuthProvider>
           <Theme>
-            {" "}
-            <main className="md:flex block">
-              <div>
-                <Sidebar />
-              </div>
-              <main className="md:w-[80%] md:ml-[20%]">
-                <Navbar />
-                {children}
-              </main>
-            </main>
+            <Auth>{children}</Auth>
           </Theme>
         </AuthProvider>
       </body>
