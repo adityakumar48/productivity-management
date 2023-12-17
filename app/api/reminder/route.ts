@@ -4,14 +4,40 @@ import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 
 // Create A Reminder
+
+interface data {
+  id: string;
+  title: string | null;
+  description: string | null;
+  Email: string | null;
+  time: string | null;
+  type: string | null;
+  status: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  name: string | null;
+  userId: string | null;
+}
+
 export async function POST(request: NextRequest) {
-  const { title, description, status, type, time } = await request.json();
+  const {
+    title,
+    description,
+    status,
+    type,
+    time,
+  }: {
+    time: string | null;
+    title: string;
+    description: string | null;
+    status: string | null;
+    type: string | null;
+  } = await request.json();
   const session = await getServerSession(authOptions);
 
   // Create a new reminder
   try {
     const reminder = await prisma.reminder.create({
-      // @ts-ignore
       data: {
         Title: title,
         Description: description,
@@ -19,8 +45,8 @@ export async function POST(request: NextRequest) {
         Status: status,
         Type: type,
         Time: time,
-        userId: session?.user?.id,
-        name: session?.user?.name,
+        userId: session?.user?.id!,
+        name: session?.user?.name!,
       },
     });
     console.log(`Reminder Created :- ${reminder.Title}`);
