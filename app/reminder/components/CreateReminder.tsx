@@ -33,7 +33,7 @@ const CreateReminder = ({ fetchData }: Props) => {
       const res = await axios.post("/api/reminder", {
         title,
         description,
-        time: startDate,
+        time: startDate?.toISOString(),
         email: session?.user.email,
         type: "Email",
         status: "Pending",

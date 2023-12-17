@@ -20,19 +20,8 @@ interface data {
 }
 
 export async function POST(request: NextRequest) {
-  const {
-    title,
-    description,
-    status,
-    type,
-    time,
-  }: {
-    time: string | null;
-    title: string;
-    description: string | null;
-    status: string | null;
-    type: string | null;
-  } = await request.json();
+  const { title, description, status, type, time } = await request.json();
+
   const session = await getServerSession(authOptions);
 
   // Create a new reminder
