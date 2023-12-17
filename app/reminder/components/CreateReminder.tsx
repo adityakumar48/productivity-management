@@ -30,7 +30,6 @@ const CreateReminder = ({ fetchData }: Props) => {
         return;
       }
 
-      console.log("hello");
       const res = await axios.post("/api/reminder", {
         title,
         description,

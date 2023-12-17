@@ -8,8 +8,6 @@ export async function POST(request: NextRequest) {
   const { title, description, status, type, time } = await request.json();
   const session = await getServerSession(authOptions);
 
-  console.log(time.slice(0, 19).replace("T", " "));
-
   // Create a new reminder
   try {
     const reminder = await prisma.reminder.create({
@@ -26,11 +24,11 @@ export async function POST(request: NextRequest) {
       },
     });
     console.log(`Reminder Created :- ${reminder.Title}`);
-    // await axios.post("http://localhost:8000/", reminder);
 
     return NextResponse.json(reminder, { status: 201 });
   } catch (error) {
     console.log(error);
+    return NextResponse.json(error, { status: 500 });
   }
 }
 
