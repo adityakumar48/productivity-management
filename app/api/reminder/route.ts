@@ -2,8 +2,6 @@ import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
-import runTasks from "@/app/services/reminderService";
-import axios from "axios";
 
 // Create A Reminder
 export async function POST(request: NextRequest) {
