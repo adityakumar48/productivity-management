@@ -10,6 +10,8 @@ export async function POST(request: NextRequest) {
   const { title, description, status, type, time } = await request.json();
   const session = await getServerSession(authOptions);
 
+  console.log(time.slice(0, 19).replace("T", " "));
+
   // Create a new reminder
   try {
     const reminder = await prisma.reminder.create({
