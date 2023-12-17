@@ -94,16 +94,16 @@ model Contact {
 }
 
 model Reminder {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   Title       String
   Description String?
   Email       String?
-  Time        String?
+  Time        DateTime?
   Type        String?
   Status      String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   name        String?
   userId      String
-  User        User     @relation(fields: [userId], references: [id])
+  User        User      @relation(fields: [userId], references: [id])
 }

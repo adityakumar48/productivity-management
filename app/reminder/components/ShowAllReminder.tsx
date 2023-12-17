@@ -1,8 +1,6 @@
 "use client";
 import { Reminder } from "@prisma/client";
-import { Badge, Button, Table } from "@radix-ui/themes";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { Badge, Table } from "@radix-ui/themes";
 import ReminderAction from "./ReminderAction";
 
 interface Props {
@@ -41,7 +39,7 @@ const ShowAllReminder = ({ reminders, setReminders }: Props) => {
                 <Table.Cell>{reminder.Type}</Table.Cell>
                 <Table.Cell>{localDate.toLocaleTimeString()}</Table.Cell>
                 <Table.Cell>
-                  {reminder.Status === "COMPLETED" ? (
+                  {reminder.Status === "completed" ? (
                     <Badge color="green">Completed</Badge>
                   ) : (
                     <Badge color="purple">Pending</Badge>
