@@ -29,11 +29,10 @@ const CreateReminder = ({ fetchData }: Props) => {
         alert("Please select a valid date and time");
         return;
       }
-
       const res = await axios.post("/api/reminder", {
         title,
         description,
-        time: startDate?.toISOString(),
+        time: startDate,
         email: session?.user.email,
         type: "Email",
         status: "Pending",
