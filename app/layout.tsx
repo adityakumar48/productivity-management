@@ -4,9 +4,7 @@ import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import AuthProvider from "./auth/Provider";
-import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
-import Auth from "./Auth";
+import Auth from "./auth/Auth";
 
 const poppins = Poppins({
   subsets: ["latin"],
