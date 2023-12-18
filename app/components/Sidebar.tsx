@@ -80,24 +80,26 @@ const sidebarHeadings = ["Focus", "Timer", "Reminder", "Statistics", "Addons"];
 type SidebarProps = {
   heading: string;
   number: number;
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const ItemHeading = (props: SidebarProps) => {
+export const ItemHeading = ({ heading, setOpen }: SidebarProps) => {
   return (
     <>
       {sidebarItems.map((item, index) => {
         return (
           <div key={index} className="px-6 flex flex-col md:block pt-5">
             <h2 className="text-xl font-poppins font-semibold text-gray-600 tracking-wide py-3">
-              {props.heading}
+              {heading}
             </h2>
 
             <div>
               {/* @ts-ignore */}
-              {item[props.heading].data.map((item, index) => (
+              {item[heading].data.map((item, index) => (
                 <li key={index} className="md:block flex flex-row">
                   <Link
                     href={item.href}
+                    onClick={() => setOpen && setOpen(false)}
                     className="flex  items-center space-x-1 pl-3 pb-1 text-lg hover:text-[#6963b0] transition-colors duration-200 ease-in-out "
                   >
                     {<item.icon />}
@@ -145,7 +147,12 @@ export const Sidebar = () => {
             {open && (
               <div className="md:hidden">
                 {sidebarHeadings.map((heading, index) => (
-                  <ItemHeading key={index} heading={heading} number={index} />
+                  <ItemHeading
+                    setOpen={setOpen}
+                    key={index}
+                    heading={heading}
+                    number={index}
+                  />
                 ))}
               </div>
             )}
@@ -154,7 +161,12 @@ export const Sidebar = () => {
 
             <div className="hidden md:block">
               {sidebarHeadings.map((heading, index) => (
-                <ItemHeading key={index} heading={heading} number={index} />
+                <ItemHeading
+                  setOpen={setOpen}
+                  key={index}
+                  heading={heading}
+                  number={index}
+                />
               ))}
             </div>
           </aside>
