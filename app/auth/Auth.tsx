@@ -1,10 +1,10 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { ReactNode } from "react";
-import DashboardLoading from "./Dashboard/loading";
-import LandingPage from "./components/LandingPage/LandingPage";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
+import DashboardLoading from "../Dashboard/loading";
+import LandingPage from "../components/LandingPage/LandingPage";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 const Auth = ({ children }: { children: ReactNode }) => {
   const { data: session, status } = useSession();
