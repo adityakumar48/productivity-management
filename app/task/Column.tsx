@@ -153,7 +153,6 @@ const Column = ({
             ) : (
               <li
                 key={item.id}
-                draggable
                 className={` text-neutral-700 flex  items-center justify-between font-semibold font-poppins tracking-wider ${textBgColor} my-3 px-3 py-2 rounded-lg `}
               >
                 <span className="w-full">
