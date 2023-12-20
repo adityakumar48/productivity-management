@@ -18,7 +18,6 @@ const TaskLoading = ({}) => {
             return (
               <li
                 key={item}
-                draggable
                 className={`text-lg flex  items-center justify-between font-semibold font-poppins tracking-wider  my-3  px-3 py-2 rounded-lg mx-2`}
               >
                 <span className="w-[70%]">
