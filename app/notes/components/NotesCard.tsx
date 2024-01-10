@@ -15,10 +15,11 @@ import { useRouter } from "next/navigation";
 interface Props {
   item: Notes;
   newCard?: boolean;
-  getNotes?: () => void;
+  getNotes?: () => Promise<void>;
+  handleDelete?: (id: string) => Promise<void>;
 }
 
-const NotesCard = ({ item, newCard, getNotes }: Props) => {
+const NotesCard = ({ item, newCard, getNotes, handleDelete }: Props) => {
   const router = useRouter();
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -44,7 +45,7 @@ const NotesCard = ({ item, newCard, getNotes }: Props) => {
       setTitle("");
       setContent("");
       // router.push("/notes");
-      // router.refresh();
+      router.refresh();
       // @ts-ignore
       getNotes();
     } catch (err) {
@@ -55,7 +56,7 @@ const NotesCard = ({ item, newCard, getNotes }: Props) => {
   return (
     <>
       {newCard ? (
-        <div className="w-[20rem] mt-5">
+        <div className="w-[20rem] my-5">
           <Dialog.Root>
             <Dialog.Trigger>
               <div className="p-5 cursor-pointer bg-neutral-200 rounded-xl min-h-[20rem] flex flex-col items-center justify-center ">
@@ -107,7 +108,6 @@ const NotesCard = ({ item, newCard, getNotes }: Props) => {
                     type="submit"
                     color="purple"
                     className="bg-purple-400"
-                    onClick={() => handleSubmit()}
                   >
                     Create
                   </Button>
@@ -138,7 +138,11 @@ const NotesCard = ({ item, newCard, getNotes }: Props) => {
               <p className=" p-1.5 bg-green-400 rounded-md text-white">
                 <FaEdit />
               </p>
-              <p className=" p-1.5 bg-red-400 rounded-md text-white">
+              <p
+                className=" p-1.5 bg-red-400 rounded-md text-white"
+                // @ts-ignore
+                onClick={() => handleDelete(String(item?.id))}
+              >
                 <MdDeleteForever />
               </p>
               <p className=" p-1.5 bg-purple-400 rounded-md text-white">

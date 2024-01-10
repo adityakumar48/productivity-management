@@ -6,7 +6,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"));
 
-const CreateNotes = ({ getNotes }: { getNotes: () => void }) => {
+const CreateNotes = ({ getNotes }: { getNotes: () => Promise<void> }) => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 

@@ -24,6 +24,15 @@ const NotesHomePage = () => {
   // update notes
   // delelte notes
 
+  const handleDelete = async (id: String) => {
+    try {
+      const res = await axios.delete(`/api/notes/${id}`);
+      const data = await res.data;
+      getNotes();
+    } catch (err) {
+      console.log(err);
+    }
+  };
   // download notes
   // share notes
 
@@ -32,11 +41,14 @@ const NotesHomePage = () => {
       <NotesHeader getNotes={getNotes} />
       <div className="flex pt-5 flex-wrap gap-5">
         {notes.map((item, i) => (
-          <NotesCard item={item} key={i} getNotes={getNotes} />
+          <NotesCard
+            item={item}
+            key={i}
+            getNotes={getNotes}
+            handleDelete={handleDelete}
+          />
         ))}
       </div>
-      {/* @ts-ignore */}
-      <NotesCard newCard />
     </div>
   );
 };

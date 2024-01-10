@@ -1,7 +1,7 @@
 import React from "react";
 import CreateNotes from "./CreateNotes";
 
-const NotesHeader = ({ getNotes }: { getNotes: () => void }) => {
+const NotesHeader = ({ getNotes }: { getNotes: () => Promise<void> }) => {
   return (
     <>
       <h1 className="font-poppins text-3xl md:text-4xl font-bold">Notes</h1>

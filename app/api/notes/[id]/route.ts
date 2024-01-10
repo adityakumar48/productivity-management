@@ -1,5 +1,7 @@
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 // Get particular notes for the current user
 export async function GET(
@@ -26,11 +28,16 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id!;
+    console.log(userId);
+
     console.log(params.id);
 
     const notes = await prisma.notes.delete({
       where: {
         id: params.id,
+        userId: userId,
       },
     });
 
