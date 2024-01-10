@@ -24,8 +24,12 @@ const NotesCard = ({ item, newCard, getNotes }: Props) => {
   const [content, setContent] = useState<string>("");
 
   const handleRoutingClick = () => {
-    console.log("clicked");
-    router.push(`/notes/${item.id}`);
+    try {
+      console.log("clicked " + item.id);
+      router.push(`/notes/${item.id}`);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleSubmit = async () => {
@@ -45,7 +49,6 @@ const NotesCard = ({ item, newCard, getNotes }: Props) => {
       getNotes();
     } catch (err) {
       console.log(err);
-      router.push("/notes");
     }
   };
 

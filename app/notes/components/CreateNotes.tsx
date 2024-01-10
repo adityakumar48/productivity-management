@@ -22,10 +22,9 @@ const CreateNotes = ({ getNotes }: { getNotes: () => void }) => {
       setTitle("");
       setContent("");
       // router.push("/notes");
-      router.refresh();
+      getNotes();
     } catch (err) {
       console.log(err);
-      router.push("/notes");
     }
   };
 

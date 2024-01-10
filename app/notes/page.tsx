@@ -1,8 +1,9 @@
 "use client";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import NotesCard from "./components/NotesCard";
 import NotesHeader from "./components/NotesHeader";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 const NotesHomePage = () => {
   const [notes, setNotes] = useState([]);
