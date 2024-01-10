@@ -1,18 +1,33 @@
 "use client";
-import {
-  Dialog,
-  Button,
-  Flex,
-  TextField,
-  TextArea,
-  Text,
-} from "@radix-ui/themes";
-import { title } from "process";
-import React, { useState } from "react";
+import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
+import axios from "axios";
+import "easymde/dist/easymde.min.css";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import SimpleMDE from "react-simplemde-editor";
 
-const CreateNotes = () => {
+const CreateNotes = ({ getNotes }: { getNotes: () => void }) => {
   const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const router = useRouter();
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post("/api/notes", {
+        title,
+        content,
+      });
+      const data = await res.data;
+      console.log(data);
+      setTitle("");
+      setContent("");
+      // router.push("/notes");
+      router.refresh();
+    } catch (err) {
+      console.log(err);
+      router.push("/notes");
+    }
+  };
 
   return (
     <Dialog.Root>
@@ -27,7 +42,7 @@ const CreateNotes = () => {
         </Button>
       </Dialog.Trigger>
 
-      <Dialog.Content style={{ maxWidth: 450 }}>
+      <Dialog.Content style={{ maxWidth: 600 }}>
         <Dialog.Title>Create Note</Dialog.Title>
         <Dialog.Description size="2" mb="4">
           Create a new Note...
@@ -46,13 +61,13 @@ const CreateNotes = () => {
           </label>
           <label>
             <Text size="2" mb="1" weight="bold">
-              Description
+              Content
             </Text>
-            <TextArea
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
-              rows={5}
-              className="border "
+            <SimpleMDE
+              // onChange={(e) => setContent(e.target.value)}
+              value={content}
+              onChange={(e) => setContent(e)}
+              className="border  "
               placeholder="Enter your note description..."
             />
           </label>
@@ -70,10 +85,7 @@ const CreateNotes = () => {
               type="submit"
               color="purple"
               className="bg-purple-400"
-              onClick={() => {
-                // @ts-ignore
-                handleSubmit();
-              }}
+              onClick={() => handleSubmit()}
             >
               Create
             </Button>

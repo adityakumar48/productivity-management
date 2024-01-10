@@ -58,6 +58,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   reminders     Reminder[]
+  Notes         Notes[]
 }
 
 model VerificationToken {
@@ -87,6 +88,16 @@ model Contact {
   Name      String
   Email     String?
   Number    Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model Notes {
+  id        String   @id @default(cuid())
+  Title     String
+  Content   String   @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
