@@ -1,16 +1,16 @@
 "use client";
+import dynamic from "next/dynamic";
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"));
+import "easymde/dist/easymde.min.css";
 import { Notes } from "@prisma/client";
 import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
-import "easymde/dist/easymde.min.css";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaDownload, FaPlus } from "react-icons/fa6";
 import { MdDeleteForever } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
-import SimpleMDE from "react-simplemde-editor";
-
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface Props {
   item: Notes;
@@ -87,10 +87,9 @@ const NotesCard = ({ item, newCard, getNotes }: Props) => {
                     Content
                   </Text>
                   <SimpleMDE
-                    // onChange={(e) => setContent(e.target.value)}
                     value={content}
                     onChange={(e) => setContent(e)}
-                    className="border  "
+                    className="border"
                     placeholder="Enter your note description..."
                   />
                 </label>

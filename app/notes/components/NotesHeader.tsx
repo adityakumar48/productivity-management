@@ -1,6 +1,5 @@
 import React from "react";
 import CreateNotes from "./CreateNotes";
-import { Notes } from "@prisma/client";
 
 const NotesHeader = ({ getNotes }: { getNotes: () => void }) => {
   return (

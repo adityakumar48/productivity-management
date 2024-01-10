@@ -2,14 +2,13 @@
 import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import SimpleMDE from "react-simplemde-editor";
+import dynamic from "next/dynamic";
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"));
 
 const CreateNotes = ({ getNotes }: { getNotes: () => void }) => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const router = useRouter();
 
   const handleSubmit = async () => {
     try {
@@ -21,7 +20,6 @@ const CreateNotes = ({ getNotes }: { getNotes: () => void }) => {
       console.log(data);
       setTitle("");
       setContent("");
-      // router.push("/notes");
       getNotes();
     } catch (err) {
       console.log(err);
