@@ -10,7 +10,18 @@ import { BsPencilSquare } from "react-icons/bs";
 import { FaShareAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
-import { toastOptions } from "@/app/task/CreateTask";
+
+export const dynamic = "force-dynamic";
+const toastOptions: Object = {
+  position: "top-right",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: false,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "light",
+};
 
 const NotesIdPage = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -45,6 +56,7 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
+      // @ts-ignore
       toast.success("Copied to clipboard", toastOptions);
     } catch (err) {
       console.log(err);
