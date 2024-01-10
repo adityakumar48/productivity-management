@@ -1,20 +1,56 @@
 "use client";
-import React, { useState } from "react";
+import dynamic from "next/dynamic";
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"));
+import "easymde/dist/easymde.min.css";
+import { Notes } from "@prisma/client";
+import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
+import { useState } from "react";
+import { FaEdit } from "react-icons/fa";
 import { FaDownload, FaPlus } from "react-icons/fa6";
 import { MdDeleteForever } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
-import {
-  Button,
-  Dialog,
-  Flex,
-  Text,
-  TextArea,
-  TextField,
-} from "@radix-ui/themes";
+import ReactMarkdown from "react-markdown";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
-const NotesCard = ({ newCard }: { newCard?: boolean }) => {
+interface Props {
+  item: Notes;
+  newCard?: boolean;
+  getNotes?: () => void;
+}
+
+const NotesCard = ({ item, newCard, getNotes }: Props) => {
+  const router = useRouter();
   const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+
+  const handleRoutingClick = () => {
+    try {
+      console.log("clicked " + item.id);
+      router.push(`/notes/${item.id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post("/api/notes", {
+        title,
+        content,
+      });
+      const data = await res.data;
+      console.log(data);
+
+      setTitle("");
+      setContent("");
+      // router.push("/notes");
+      // router.refresh();
+      // @ts-ignore
+      getNotes();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -29,7 +65,7 @@ const NotesCard = ({ newCard }: { newCard?: boolean }) => {
               </div>
             </Dialog.Trigger>
 
-            <Dialog.Content style={{ maxWidth: 450 }}>
+            <Dialog.Content style={{ maxWidth: 600 }}>
               <Dialog.Title>Create Note</Dialog.Title>
               <Dialog.Description size="2" mb="4">
                 Create a new Note...
@@ -48,13 +84,12 @@ const NotesCard = ({ newCard }: { newCard?: boolean }) => {
                 </label>
                 <label>
                   <Text size="2" mb="1" weight="bold">
-                    Description
+                    Content
                   </Text>
-                  <TextArea
-                    onChange={(e) => setDescription(e.target.value)}
-                    value={description}
-                    rows={5}
-                    className="border "
+                  <SimpleMDE
+                    value={content}
+                    onChange={(e) => setContent(e)}
+                    className="border"
                     placeholder="Enter your note description..."
                   />
                 </label>
@@ -72,10 +107,7 @@ const NotesCard = ({ newCard }: { newCard?: boolean }) => {
                     type="submit"
                     color="purple"
                     className="bg-purple-400"
-                    onClick={() => {
-                      // @ts-ignore
-                      handleSubmit();
-                    }}
+                    onClick={() => handleSubmit()}
                   >
                     Create
                   </Button>
@@ -85,18 +117,19 @@ const NotesCard = ({ newCard }: { newCard?: boolean }) => {
           </Dialog.Root>
         </div>
       ) : (
-        <div className="w-[20rem] mt-5">
-          <div className="p-5 bg-neutral-200 rounded-t-xl min-h-[16rem] ">
+        <div className="w-[20rem]  mt-5 cursor-pointer ">
+          <div className="p-5 bg-neutral-200 min-h-[16rem] h-[16rem] rounded-t-xl  ">
             <h2 className="text-xl font-bold tracking-wide font-poppins pb-5">
-              Title
+              {item.Title}
             </h2>
-            <div>
-              <p className="font-poppins">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto
-                mollitia consequuntur cumque illum fugit dolorem odio, a sit
-                deserunt obcaecati, numquam magnam corrupti. Sapiente laborum
-                sint odit nobis modi repudiandae? lore
-              </p>
+            <div onClick={handleRoutingClick}>
+              <ReactMarkdown className="font-poppins">
+                {item.Content.length > 150
+                  ? item.Content.slice(0, 150) + " ..."
+                  : item.Content}
+
+                {/* {item.Content} */}
+              </ReactMarkdown>
             </div>
           </div>
           <div className=" bg-neutral-500 rounded-b-xl h-10 w-full">
