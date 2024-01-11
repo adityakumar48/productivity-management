@@ -32,16 +32,16 @@ const sidebarItems = [
         },
       ],
     },
-    Timer: {
-      name: "Timer",
-      data: [
-        {
-          name: "Timer",
-          icon: LuTimer,
-          href: "/timer",
-        },
-      ],
-    },
+    // Timer: {
+    //   name: "Timer",
+    //   data: [
+    //     {
+    //       name: "Timer",
+    //       icon: LuTimer,
+    //       href: "/timer",
+    //     },
+    //   ],
+    // },
     Reminder: {
       name: "Reminder",
       data: [
@@ -75,7 +75,13 @@ const sidebarItems = [
   },
 ];
 
-const sidebarHeadings = ["Focus", "Timer", "Reminder", "Statistics", "Addons"];
+const sidebarHeadings = [
+  "Focus",
+  // "Timer",
+  "Reminder",
+  "Statistics",
+  "Addons",
+];
 
 type SidebarProps = {
   heading: string;
