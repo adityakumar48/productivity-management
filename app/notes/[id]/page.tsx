@@ -74,7 +74,7 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
         <div className="flex justify-between">
           <p className=" text-5xl font-poppins font-bold ">{note?.Title}</p>
           <div className="flex justify-end pr-5 items-center ">
-            <div className="flex gap-2">
+            <div className=" md:flex gap-2 m-2 p-2 flex-wrap">
               <Button
                 style={{
                   cursor: "pointer",

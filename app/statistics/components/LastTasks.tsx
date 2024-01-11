@@ -24,15 +24,16 @@ const LastTasks = () => {
 
       <Table.Root>
         <Table.Body>
-          {tasks?.map((item, i) => (
-            <Table.Row key={i}>
-              <Table.Cell>
-                <Flex justify={"between"}>
-                  <Flex direction={"column"} align={"start"} gap="2">
-                    <Link className="text-md" href={`/`}>
-                      {item.Task}
-                    </Link>
-                    {item.Status === "COMPLETED" ? (
+          {tasks &&
+            tasks?.map((item, i) => (
+              <Table.Row key={i}>
+                <Table.Cell>
+                  <Flex justify={"between"} wrap={"wrap"}>
+                    <Flex direction={"column"} align={"start"} gap="2">
+                      <Link className="text-md" href={`/`}>
+                        {item.Task}
+                      </Link>
+                      {/* {item.Status === "COMPLETED" ? (
                       <Badge className="text-sm text-green-500">
                         {item.Status}
                       </Badge>
@@ -40,40 +41,40 @@ const LastTasks = () => {
                       <Badge className="text-sm text-red-500">
                         {item.Status}
                       </Badge>
-                    )}
+                    )} */}
 
-                    {/* <Badge className="text-sm text-neutral-500">
-                      {item.Status}
-                    </Badge> */}
+                      <Badge className="text-sm text-neutral-500">
+                        {item.Status}
+                      </Badge>
+                    </Flex>
+                    <Flex direction={"column"} align={"end"} gap="2">
+                      <p className="text-sm text-neutral-500">
+                        <span className="font-poppins font-semibold">
+                          Created At:-{" "}
+                        </span>
+                        {item.createdAt
+                          .toLocaleString()
+                          .split("T")[1]
+                          .split(".")[0] +
+                          " " +
+                          item.createdAt.toLocaleString().split("T")[0]}
+                      </p>
+                      <p className="text-sm text-neutral-500">
+                        <span className=" text-violet-500 font-poppins font-semibold">
+                          Updated At:-{" "}
+                        </span>
+                        {item.updatedAt
+                          .toLocaleString()
+                          .split("T")[1]
+                          .split(".")[0] +
+                          " " +
+                          item.updatedAt.toLocaleString().split("T")[0]}
+                      </p>
+                    </Flex>
                   </Flex>
-                  <Flex direction={"column"} align={"end"} gap="2">
-                    <p className="text-sm text-neutral-500">
-                      <span className="font-poppins font-semibold">
-                        Created At:-{" "}
-                      </span>
-                      {item.createdAt
-                        .toLocaleString()
-                        .split("T")[1]
-                        .split(".")[0] +
-                        " " +
-                        item.createdAt.toLocaleString().split("T")[0]}
-                    </p>
-                    <p className="text-sm text-neutral-500">
-                      <span className=" text-violet-500 font-poppins font-semibold">
-                        Updated At:-{" "}
-                      </span>
-                      {item.updatedAt
-                        .toLocaleString()
-                        .split("T")[1]
-                        .split(".")[0] +
-                        " " +
-                        item.updatedAt.toLocaleString().split("T")[0]}
-                    </p>
-                  </Flex>
-                </Flex>
-              </Table.Cell>
-            </Table.Row>
-          ))}
+                </Table.Cell>
+              </Table.Row>
+            ))}
         </Table.Body>
       </Table.Root>
     </div>
