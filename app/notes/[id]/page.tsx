@@ -10,6 +10,7 @@ import { BsPencilSquare } from "react-icons/bs";
 import { FaShareAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
+import EditNotes from "../components/EditNotes";
 
 export const dynamic = "force-dynamic";
 const toastOptions: Object = {
@@ -34,6 +35,7 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
   const getNotes = async () => {
     const res = await axios.get(`/api/notes/${id}`);
     const data = await res.data;
+    if (!data) router.push("/notes");
     setNote(data);
   };
 
@@ -41,7 +43,7 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
     if (id) {
       getNotes();
     }
-  }, []);
+  }, [id]);
 
   const handleDelete = async (id: String) => {
     try {
@@ -84,15 +86,8 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
                 {" "}
                 <FaShareAlt /> Save
               </Button>
-              <Button
-                style={{
-                  cursor: "pointer",
-                }}
-                variant="solid"
-                color="iris"
-              >
-                <BsPencilSquare /> Edit
-              </Button>
+
+              <EditNotes id={id} getNotes={getNotes} note={note} />
               <Button
                 variant="surface"
                 color="red"

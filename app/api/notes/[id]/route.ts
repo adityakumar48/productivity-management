@@ -48,3 +48,34 @@ export async function DELETE(
     console.log(err);
   }
 }
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id!;
+    console.log(userId);
+
+    const body = await request.json();
+
+    const { title, content } = body;
+    const notes = await prisma.notes.update({
+      where: {
+        id: params.id,
+        userId: userId,
+      },
+      data: {
+        Title: title,
+        Content: content,
+      },
+    });
+
+    console.log(notes);
+
+    return NextResponse.json(notes);
+  } catch (err) {
+    console.log(err);
+  }
+}

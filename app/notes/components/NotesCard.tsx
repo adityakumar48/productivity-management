@@ -11,6 +11,7 @@ import { MdDeleteForever } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
   item: Notes;
@@ -135,9 +136,12 @@ const NotesCard = ({ item, newCard, getNotes, handleDelete }: Props) => {
           <div className=" bg-neutral-500 rounded-b-xl h-10 w-full">
             {/* Buttons */}
             <div className=" flex gap-4 text-md justify-end pr-8 items-center h-10">
-              <p className=" p-1.5 bg-green-400 rounded-md text-white">
+              <Link
+                href={`/notes/${item.id}`}
+                className=" p-1.5 bg-green-400 rounded-md text-white"
+              >
                 <FaEdit />
-              </p>
+              </Link>
               <p
                 className=" p-1.5 bg-red-400 rounded-md text-white"
                 // @ts-ignore
