@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
 export const dynamic = "force-dynamic";
+
 // Get particular notes for the current user
 export async function GET(
   request: NextRequest,
@@ -15,8 +16,6 @@ export async function GET(
         id: params.id,
       },
     });
-
-    // console.log(notes);
 
     return NextResponse.json(notes);
   } catch (err) {
