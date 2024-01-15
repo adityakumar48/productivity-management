@@ -5,6 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { TaskStatus } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 interface Task {
   Task: string;
   Status: TaskStatus;

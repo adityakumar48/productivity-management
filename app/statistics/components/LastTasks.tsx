@@ -1,29 +1,37 @@
 "use client";
-import { Task, TaskStatus } from "@prisma/client";
+import { Task } from "@prisma/client";
 import { Badge, Flex, Table } from "@radix-ui/themes";
-import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const LastTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>();
+export const dynamic = "force-dynamic";
 
-  const getTasks = async () => {
-    const res = await axios.get("/api/statistics");
-    const data = await res.data;
-    setTasks(data);
-  };
+interface Props {
+  tasks: Task[];
+  isLoading: boolean;
+}
 
-  useEffect(() => {
-    getTasks();
-  }, []);
-
+const LastTasks = ({ tasks, isLoading }: Props) => {
   return (
     <div className="mt-8">
       <h2 className="text-xl font-poppins mb-5 font-semibold">Recent Tasks</h2>
 
       <Table.Root>
         <Table.Body>
+          {isLoading && (
+            <Table.Row>
+              <Table.Cell>
+                <Flex justify={"between"} wrap={"wrap"}>
+                  <Flex direction={"column"} align={"start"} gap="2">
+                    <Link className="text-md" href={`/`}>
+                      Loading...
+                    </Link>
+                  </Flex>
+                </Flex>
+              </Table.Cell>
+            </Table.Row>
+          )}
+
           {tasks &&
             tasks?.map((item, i) => (
               <Table.Row key={i}>
