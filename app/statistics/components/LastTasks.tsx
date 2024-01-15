@@ -1,6 +1,6 @@
 "use client";
 import { Task } from "@prisma/client";
-import { Badge, Flex, Table } from "@radix-ui/themes";
+import { Badge, Button, Flex, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -30,6 +30,23 @@ const LastTasks = ({ tasks, isLoading }: Props) => {
                 </Flex>
               </Table.Cell>
             </Table.Row>
+          )}
+          {tasks?.length === 0 && (
+            <div className="flex flex-col items-center justify-center w-full h-[50vh]">
+              <p className="text-xl font-bold font-poppins">No Tasks Found</p>
+              <p className="text-md font-poppins mb-2">
+                Create a new Task to get started
+              </p>
+              <Button variant="soft" color="purple">
+                <Link
+                  href={"/"}
+                  className="text-md 
+                  font-poppins"
+                >
+                  Create Task
+                </Link>
+              </Button>
+            </div>
           )}
 
           {tasks &&

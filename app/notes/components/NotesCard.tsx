@@ -34,26 +34,6 @@ const NotesCard = ({ item, newCard, getNotes, handleDelete }: Props) => {
     }
   };
 
-  const handleSubmit = async () => {
-    try {
-      const res = await axios.post("/api/notes", {
-        title,
-        content,
-      });
-      const data = await res.data;
-      console.log(data);
-
-      setTitle("");
-      setContent("");
-      // router.push("/notes");
-      router.refresh();
-      // @ts-ignore
-      getNotes();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <>
       {newCard ? (
