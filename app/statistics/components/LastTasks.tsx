@@ -85,7 +85,7 @@ const LastTasks = ({ tasks, isLoading }: Props) => {
                           item.createdAt.toLocaleString().split("T")[0]}
                       </p>
                       <p className="text-sm text-neutral-500">
-                        <span className=" text-violet-500 font-poppins font-semibold">
+                        <span className=" text-slate-500 font-poppins font-semibold">
                           Updated At:-{" "}
                         </span>
                         {item.updatedAt
