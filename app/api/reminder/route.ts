@@ -5,6 +5,8 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 // Create A Reminder
 
+export const dynamic = "force-dynamic";
+
 interface data {
   id: string;
   title: string | null;
