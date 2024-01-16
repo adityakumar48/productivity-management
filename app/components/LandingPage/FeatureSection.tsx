@@ -54,7 +54,7 @@ const FeatureSection = () => {
           />
         </div>
       </div>
-      <FeatureCard />
+      {/* <FeatureCard /> */}
     </>
   );
 };

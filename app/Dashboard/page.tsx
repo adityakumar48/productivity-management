@@ -1,15 +1,17 @@
-"use client";
 import { useSession } from "next-auth/react";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
 import TodoHomepage from "../task/page";
 import DashboardLoading from "./loading";
 import LandingPage from "../components/LandingPage/LandingPage";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
-export default function Dashboard() {
-  const { data: session, status } = useSession();
+export const dynamic = "force-dynamic";
 
-  if (status == "loading") return <DashboardLoading />;
+export default async function Dashboard() {
+  // const { data: session, status } = useSession();
+  const session = await getServerSession(authOptions);
 
-  return <>{status === "authenticated" ? <TodoHomepage /> : <LandingPage />}</>;
+  // if (status == "loading") return <DashboardLoading />;
+
+  return <>{session?.user ? <TodoHomepage /> : <LandingPage />}</>;
 }

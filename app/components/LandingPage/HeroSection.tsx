@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import Image from "next/image";
+import HeroImage from "../../../public/Right side Img.png";
 
 const HeroSection = () => {
   return (
@@ -53,14 +54,15 @@ const HeroSection = () => {
         <div className="flex-1 md:py-0  py-12  ">
           {/* Right Side */}
           <Image
-            width={500}
-            height={500}
-            quality={100}
+            width={HeroImage.width}
+            height={HeroImage.height}
+            // quality={100}
             priority={true}
-            src="/Right side Img.png"
+            src={HeroImage}
             style={{ objectFit: "contain" }}
+            sizes="(max-width: 768px) 100vw, 400px"
             alt="logo"
-            className="w-full   "
+            className="w-full "
           />
         </div>
       </div>
