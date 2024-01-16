@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className="flex  px-28 h-[10vh]  bg-[rgba(137, 99, 233, 0.9)] shadow-sm justify-between items-center ">
         <div className="">
           <Image
-            src={LOGO}
+            src={"/PHLogo.png"}
             alt="logo"
             height={150}
             priority={true}

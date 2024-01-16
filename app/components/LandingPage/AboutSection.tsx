@@ -1,5 +1,4 @@
 import Card from "./Card";
-import AboutImage from "../../../public/illustration 2.png";
 
 const AboutSection = () => {
   return (
@@ -10,7 +9,7 @@ const AboutSection = () => {
           <div className=" py-4 pr-5">
             {" "}
             <Card
-              image={AboutImage}
+              image="/illustration 2.png"
               linearGradientClass="aboutCardLinear"
               title="Productivity Hub"
               description={" Elevate Your Efficiency, Own Your Time"}
