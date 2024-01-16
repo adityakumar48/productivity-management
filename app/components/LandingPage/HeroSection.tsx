@@ -24,8 +24,8 @@ const HeroSection = () => {
             <p className=" pt-2 text-xl text-neutral-500 font-medium font-poppins">
               Start and stop when you want...
             </p>
-            <p className="w-4/5 pt-2 text-neutral-400 ">
-              Welcome to ProductivityHub 🚀 – Your all-in-one productivity
+            <p className="w-4/5 pt-2 text-neutral-500 ">
+              Welcome to ProductivityHub – Your all-in-one productivity
               management platform. Take control of your daily life, track your
               time efficiently, and supercharge your productivity. With sleek
               design and robust features, ProductivityHub helps you visualize

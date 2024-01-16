@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import LOGO from "../../../public/PHLogo.png";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -12,12 +13,15 @@ const Navbar = () => {
   return (
     <div className="fixed z-50 top-0 left-0 w-full">
       <div className="flex  px-28 h-[10vh]  bg-[rgba(137, 99, 233, 0.9)] shadow-sm justify-between items-center ">
-        <div>
+        <div className="">
           <Image
-            src="/logo.png"
+            src={LOGO}
             alt="logo"
-            height={100}
-            width={100}
+            height={150}
+            priority={true}
+            quality={80}
+            style={{ objectFit: "contain" }}
+            width={150}
             className="rounded-md"
           />
         </div>

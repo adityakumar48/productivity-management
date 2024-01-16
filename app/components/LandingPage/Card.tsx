@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import AboutImage from "../../assets/illustration 2.png";
 
 interface Props {
   linearGradientClass: string;
@@ -23,8 +22,8 @@ const Card = ({
     >
       <Image
         src={image}
-        width={300}
-        height={300}
+        width={image.width}
+        height={image.height}
         alt="CardImage"
         className="rounded-t-lg"
       />{" "}

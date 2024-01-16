@@ -1,6 +1,11 @@
 import React from "react";
 import Card from "./Card";
 import FeatureCard from "./FeatureCard";
+import Image1 from "../../../public/illustration 3.png";
+import Image2 from "../../../public/illustration 4.png";
+import Image3 from "../../../public/illustration 6.png";
+import Image4 from "../../../public/building-user-interface.png";
+import Image5 from "../../../public/illustration 18.png";
 
 const FeatureSection = () => {
   return (
@@ -8,7 +13,7 @@ const FeatureSection = () => {
       <div className="px-28 pt-[10vh] h-screen ">
         <div className="md:flex flex-wrap  md:justify-evenly ">
           <Card
-            image="/illustration 3.png"
+            image={Image1}
             linearGradientClass="taskManager"
             title="Task Managemer"
             shadowColor="shadow-[#da5f94]"
@@ -17,7 +22,7 @@ const FeatureSection = () => {
             }
           />
           <Card
-            image="/illustration 4.png"
+            image={Image2}
             linearGradientClass="techniqueTimer"
             shadowColor="shadow-[#ff8570]"
             title="Technique Timers"
@@ -26,7 +31,7 @@ const FeatureSection = () => {
             }
           />
           <Card
-            image="/illustration 6.png"
+            image={Image3}
             linearGradientClass="notes"
             title="Notes"
             description={
@@ -35,7 +40,7 @@ const FeatureSection = () => {
             shadowColor="shadow-[#4316db]"
           />
           <Card
-            image="/building-user-interface@1x 3.png"
+            image={Image4}
             linearGradientClass="statistics"
             title="Statistics"
             description={
@@ -44,7 +49,7 @@ const FeatureSection = () => {
             shadowColor="shadow-[#343563]"
           />
           <Card
-            image="/illustration 18.png"
+            image={Image5}
             linearGradientClass="reminders"
             title="Reminders"
             description={
