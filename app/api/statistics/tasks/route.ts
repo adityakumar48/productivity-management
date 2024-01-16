@@ -18,8 +18,6 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    console.log(tasks);
-
     return NextResponse.json(tasks);
   } catch (error) {
     console.log(error);

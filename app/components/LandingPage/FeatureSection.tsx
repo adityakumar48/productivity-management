@@ -35,7 +35,7 @@ const FeatureSection = () => {
             shadowColor="shadow-[#4316db]"
           />
           <Card
-            image="/building-user-interface@1x 3.png"
+            image="/building-user-interface.png"
             linearGradientClass="statistics"
             title="Statistics"
             description={
@@ -54,7 +54,7 @@ const FeatureSection = () => {
           />
         </div>
       </div>
-      <FeatureCard />
+      {/* <FeatureCard /> */}
     </>
   );
 };
