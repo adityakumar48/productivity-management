@@ -23,18 +23,8 @@ export const notesSlice = createSlice({
     deleteNote: (state, action: PayloadAction<string>) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
-
-    // create a new reducer to get notes by id and add it to the notesSlice
-    getNotesById: (state, action: PayloadAction<string>) => {
-      state.notes = state.notes.filter((note) => note.id === action.payload);
-      console.log("Final: ", state.notes);
-      return state;
-    },
-
-    notesById: (state) => state,
   },
 });
 
-export const { setNotes, notes, deleteNote, getNotesById, notesById } =
-  notesSlice.actions;
+export const { setNotes, notes, deleteNote } = notesSlice.actions;
 export default notesSlice.reducer;

@@ -37,9 +37,10 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
 
   // get notes
   const getNotes = async () => {
-    const res = await axios.get(`/api/notes/${id}`);
+    const res = await axios.get(`/api/notes`);
     const data = await res.data;
     dispatch(setNotes(data));
+
     if (!data) router.push("/notes");
     setNote(data);
   };
@@ -47,10 +48,11 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     if (id) {
       if (notes.notes.length === 0) getNotes();
-
-      setNote(notes.notes.filter((item) => item.id === id)[0]);
+      else {
+        setNote(notes.notes.filter((item) => item.id === id)[0]);
+      }
     }
-  }, []);
+  }, [notes.notes]);
 
   const handleDelete = async (id: String) => {
     try {
@@ -65,8 +67,8 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      // @ts-ignore
-      toast.success("Copied to clipboard", toastOptions);
+      alert("Copied to clipboard");
+      // toast.success("Copied to clipboard", toastOptions);
     } catch (err) {
       console.log(err);
     }
@@ -82,7 +84,14 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
           <p className=" text-5xl font-poppins font-bold ">{note?.Title}</p>
           <div className="flex justify-end pr-5 items-center ">
             <div className=" md:flex gap-2 m-2 p-2 flex-wrap">
-              <Button color="cyan" variant="soft" onClick={handleCopyLink}>
+              <Button
+                style={{
+                  cursor: "pointer",
+                }}
+                color="cyan"
+                variant="soft"
+                onClick={handleCopyLink}
+              >
                 {" "}
                 <FaShareAlt /> Save
               </Button>
