@@ -5,6 +5,7 @@ import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import AuthProvider from "./auth/Provider";
 import Auth from "./auth/Auth";
+import { Providers } from "./redux/Providers";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -50,9 +51,11 @@ export default async function RootLayout({
     <html lang="en">
       <body className={poppins.variable}>
         <AuthProvider>
-          <Theme>
-            <Auth>{children}</Auth>
-          </Theme>
+          <Providers>
+            <Theme>
+              <Auth>{children}</Auth>
+            </Theme>
+          </Providers>
         </AuthProvider>
       </body>
     </html>

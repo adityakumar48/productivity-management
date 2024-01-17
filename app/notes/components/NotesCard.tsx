@@ -18,9 +18,10 @@ interface Props {
   newCard?: boolean;
   getNotes?: () => Promise<void>;
   handleDelete?: (id: string) => Promise<void>;
+  key?: number;
 }
 
-const NotesCard = ({ item, newCard, getNotes, handleDelete }: Props) => {
+const NotesCard = ({ item, newCard, getNotes, handleDelete, key }: Props) => {
   const router = useRouter();
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -37,7 +38,7 @@ const NotesCard = ({ item, newCard, getNotes, handleDelete }: Props) => {
   return (
     <>
       {newCard ? (
-        <div className="w-[20rem] my-5">
+        <div key={key} className="w-[20rem] my-5">
           <Dialog.Root>
             <Dialog.Trigger>
               <div className="p-5 cursor-pointer bg-neutral-200 rounded-xl min-h-[20rem] flex flex-col items-center justify-center ">
