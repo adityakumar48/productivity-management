@@ -1,18 +1,20 @@
 "use client";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { setNotes } from "@/app/redux/slices/notes";
 import { Notes } from "@prisma/client";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { FaRegClock, FaTrash } from "react-icons/fa6";
-import { useSession } from "next-auth/react";
-import ReactMarkdown from "react-markdown";
 import { Button } from "@radix-ui/themes";
-import { BsPencilSquare } from "react-icons/bs";
-import { FaShareAlt } from "react-icons/fa";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaShareAlt } from "react-icons/fa";
+import { FaRegClock, FaTrash } from "react-icons/fa6";
+import ReactMarkdown from "react-markdown";
 import { ToastContainer, toast } from "react-toastify";
 import EditNotes from "../components/EditNotes";
 
 export const dynamic = "force-dynamic";
+
 const toastOptions: Object = {
   position: "top-right",
   autoClose: 5000,
@@ -28,6 +30,8 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const { id } = params;
+  const dispatch = useAppDispatch();
+  const notes = useAppSelector((state) => state.notes);
 
   const [note, setNote] = useState<Notes>();
 
@@ -35,15 +39,18 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
   const getNotes = async () => {
     const res = await axios.get(`/api/notes/${id}`);
     const data = await res.data;
+    dispatch(setNotes(data));
     if (!data) router.push("/notes");
     setNote(data);
   };
 
   useEffect(() => {
     if (id) {
-      getNotes();
+      if (notes.notes.length === 0) getNotes();
+
+      setNote(notes.notes.filter((item) => item.id === id)[0]);
     }
-  }, [id]);
+  }, []);
 
   const handleDelete = async (id: String) => {
     try {
@@ -75,14 +82,7 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
           <p className=" text-5xl font-poppins font-bold ">{note?.Title}</p>
           <div className="flex justify-end pr-5 items-center ">
             <div className=" md:flex gap-2 m-2 p-2 flex-wrap">
-              <Button
-                style={{
-                  cursor: "pointer",
-                }}
-                color="cyan"
-                variant="soft"
-                onClick={handleCopyLink}
-              >
+              <Button color="cyan" variant="soft" onClick={handleCopyLink}>
                 {" "}
                 <FaShareAlt /> Save
               </Button>

@@ -44,14 +44,8 @@ const EditNotes = ({ note, id }: Props) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button
-          style={{
-            cursor: "pointer",
-          }}
-          variant="solid"
-          color="iris"
-        >
-          <BsPencilSquare /> Edit
+        <Button variant="solid">
+          <BsPencilSquare /> <Text>Edit</Text>
         </Button>
       </Dialog.Trigger>
 

@@ -1,17 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import {
+  deleteNote,
+  getNotesById,
+  setNotes,
+} from "../redux/slices/notes/index";
+import NoteLoading from "./NoteLoading";
 import NotesCard from "./components/NotesCard";
 import NotesHeader from "./components/NotesHeader";
-import { useSession } from "next-auth/react";
-import axios from "axios";
-import NoteLoading from "./NoteLoading";
-import Spinner from "../components/Spinner";
-import { Notes } from "@prisma/client";
 
 const NotesHomePage = () => {
-  const [notes, setNotes] = useState<Notes[] | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [loadingCards, setLoadingCards] = useState<number>(3);
+  const dispatch = useAppDispatch();
+  const notes = useAppSelector((state) => state.notes.notes);
 
   // get notes
   const getNotes = async () => {
@@ -19,7 +23,7 @@ const NotesHomePage = () => {
       setIsLoading(true);
       const res = await axios.get("/api/notes");
       const data = await res.data;
-      setNotes(data);
+      dispatch(setNotes(data));
       setIsLoading(false);
     } catch (err) {
       console.log(err);
@@ -30,28 +34,23 @@ const NotesHomePage = () => {
   };
 
   useEffect(() => {
-    getNotes();
+    if (notes.length === 0) {
+      getNotes();
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
-  // get notes by id
-
-  // update notes
-  // delelte notes
-
-  const handleDelete = async (id: String) => {
+  const handleDelete = async (id: string) => {
     try {
-      setNotes((prev) => {
-        return prev?.filter((item) => item?.id! !== id);
-      });
+      dispatch(deleteNote(id!));
       const res = await axios.delete(`/api/notes/${id}`);
       const data = await res.data;
-      getNotes();
+      // getNotes();
     } catch (err) {
       console.log(err);
     }
   };
-  // download notes
-  // share notes
 
   return (
     <div className="md:px-16 px-8 ">
