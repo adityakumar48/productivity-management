@@ -2,11 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import {
-  deleteNote,
-  getNotesById,
-  setNotes,
-} from "../redux/slices/notes/index";
+import { deleteNote, setNotes } from "../redux/slices/notes/index";
 import NoteLoading from "./NoteLoading";
 import NotesCard from "./components/NotesCard";
 import NotesHeader from "./components/NotesHeader";
