@@ -42,17 +42,25 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
     dispatch(setNotes(data));
 
     if (!data) router.push("/notes");
-    setNote(data);
+    if (!id) router.push("/notes");
+
+    const note = data.filter((item: { id: string }) => item.id === id)[0];
+    if (!note) router.push("/notes");
+
+    if (session?.user.id !== note?.userId) router.push("/notes");
+
+    setNote(note);
   };
 
   useEffect(() => {
     if (id) {
-      if (notes.notes.length === 0) getNotes();
-      else {
+      if (notes.notes.length == 0) {
+        getNotes();
+      } else {
         setNote(notes.notes.filter((item) => item.id === id)[0]);
       }
     }
-  }, [notes.notes]);
+  }, []);
 
   const handleDelete = async (id: String) => {
     try {
@@ -116,7 +124,7 @@ const NotesIdPage = ({ params }: { params: { id: string } }) => {
           {" "}
           <FaRegClock />{" "}
           <span>
-            {note?.createdAt.toLocaleString().split("T")[0]} -{" "}
+            {note?.createdAt?.toLocaleString()?.split("T")[0]} -{" "}
             {session?.user.name!}
           </span>
         </p>
