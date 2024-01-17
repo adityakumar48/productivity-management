@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     });
     ``;
 
-    console.log(notes);
+    // console.log(notes);
 
     return NextResponse.json(notes);
   } catch (err) {
