@@ -15,7 +15,7 @@ interface Props {
   getNotes?: () => Promise<void>;
 }
 
-const EditNotes = ({ note, id }: Props) => {
+const EditNotes = ({ note, id, getNotes }: Props) => {
   const [title, setTitle] = useState<string | undefined>("");
   const [content, setContent] = useState<string | undefined>("");
   const router = useRouter();
@@ -32,10 +32,14 @@ const EditNotes = ({ note, id }: Props) => {
         content,
       });
       const data = await res.data;
+
       console.log(data);
+
       setTitle("");
       setContent("");
-      router.push("/notes");
+      if (getNotes) {
+        getNotes();
+      }
     } catch (err) {
       console.log(err);
     }
