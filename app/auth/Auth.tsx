@@ -18,7 +18,7 @@ const Auth = ({ children }: { children: ReactNode }) => {
       <div>
         <Sidebar />
       </div>
-      <main className="md:w-[80%] md:ml-[20%]">
+      <main className="md:w-[80%] md:ml-[20%] h-screen overflow-scroll">
         <Navbar />
         {children}
       </main>

@@ -2,6 +2,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/prisma/client";
+import { User } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -14,9 +15,11 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, session }) {
       if (user) {
+        console.log(user);
         return {
           ...token,
           id: user.id,
+          isAdmin: (user as User).isAdmin,
         };
       }
       return token;
@@ -28,6 +31,7 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
+          isAdmin: token.isAdmin,
         },
       };
     },
@@ -52,6 +56,7 @@ const handler = NextAuth({
         return {
           ...token,
           id: user.id,
+          isAdmin: (user as User).isAdmin,
         };
       }
       return token;
@@ -63,6 +68,7 @@ const handler = NextAuth({
         user: {
           ...session.user,
           id: token.id,
+          isAdmin: token.isAdmin,
         },
       };
     },

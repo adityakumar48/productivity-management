@@ -16,71 +16,6 @@ import { FiActivity } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
 import { IoTicketOutline } from "react-icons/io5";
 
-const sidebarItems = [
-  {
-    Focus: {
-      name: "Focus",
-      data: [
-        {
-          name: "Task",
-          icon: LuListTodo,
-          href: "/",
-        },
-        {
-          name: "Notes",
-          icon: FaRegNoteSticky,
-          href: "/notes",
-        },
-        {
-          name: "Habit Tracker",
-          icon: AiOutlineCalendar,
-          href: "/habit",
-        },
-      ],
-    },
-    Timer: {
-      name: "Timer",
-      data: [
-        {
-          name: "Timer",
-          icon: LuTimer,
-          href: "/timer",
-        },
-      ],
-    },
-    Reminder: {
-      name: "Reminder",
-      data: [
-        {
-          name: "Reminder",
-          icon: RiRemoteControlLine,
-          href: "/reminder",
-        },
-      ],
-    },
-    Statistics: {
-      name: "Statistics",
-      data: [
-        {
-          name: "Statistics",
-          icon: BiStats,
-          href: "/statistics",
-        },
-      ],
-    },
-    Addons: {
-      name: "Addons",
-      data: [
-        {
-          name: "Contact Book",
-          icon: TiContacts,
-          href: "/contactbook",
-        },
-      ],
-    },
-  },
-];
-
 const adminSidebarItems = [
   {
     Analytics: {
@@ -109,7 +44,7 @@ const adminSidebarItems = [
         {
           name: "Users",
           icon: FaRegUser,
-          href: "/admin/users",
+          href: "/timer",
         },
         {
           name: "Activity",
@@ -151,24 +86,18 @@ const adminSidebarItems = [
   },
 ];
 
-const sidebarHeadings = ["Focus", "Timer", "Reminder", "Statistics", "Addons"];
 const adminSidebarHeadings = ["Analytics", "User", "Newsletter", "Tickets"];
 
 type SidebarProps = {
   heading: string;
   number: number;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  sideBarItems: (typeof sidebarItems)[] | (typeof adminSidebarItems)[];
 };
 
-export const ItemHeading = ({
-  heading,
-  setOpen,
-  sideBarItems,
-}: SidebarProps) => {
+export const AdminItemHeading = ({ heading, setOpen }: SidebarProps) => {
   return (
     <>
-      {sideBarItems.map((item, index) => {
+      {adminSidebarItems.map((item, index) => {
         return (
           <div key={index} className="px-6 flex flex-col md:block pt-5">
             <h2 className="text-xl font-poppins font-semibold text-gray-600 tracking-wide py-3">
@@ -202,7 +131,7 @@ export const Sidebar = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleLogout = async () => {
-    await signOut();
+    signOut();
   };
 
   return (
@@ -211,7 +140,7 @@ export const Sidebar = () => {
         <aside className="md:w-[20%] md:h-screen md:overflow-scroll  no-scrollbar  bg-slate-100 md:min-h-screen md:fixed  ">
           <aside className="">
             <h1 className="font-poppins tracking-wide text-2xl md:pl-6 px-6 py-6 flex items-center justify-between text-gray-600 font-bold">
-              <Link href={"/"}>Dashboard</Link>
+              <Link href={"/"}>Admin</Link>
 
               {/* if screen size below md then show icon */}
 
@@ -232,88 +161,33 @@ export const Sidebar = () => {
 
             {open && (
               <div className="md:hidden">
-                {sidebarHeadings.map((heading, index) => (
-                  <ItemHeading
+                {adminSidebarHeadings.map((heading, index) => (
+                  <AdminItemHeading
                     setOpen={setOpen}
                     key={index}
                     heading={heading}
                     number={index}
-                    // @ts-ignore
-                    sideBarItems={sidebarItems}
                   />
                 ))}
-
-                <div className="pl-4 flex w-[90%] flex-wrap pt-12 pb-4 flex-col gap-1">
-                  {session.user.isAdmin && (
-                    <div>
-                      {window.location.pathname === "/admin" ? (
-                        <Link href={"/"}>
-                          <Button
-                            variant="soft"
-                            className="w-full pl-4"
-                            color="violet"
-                            onClick={() => setOpen(false)}
-                          >
-                            <a>User dashboard</a>
-                          </Button>
-                        </Link>
-                      ) : (
-                        <Link href={"/admin"}>
-                          <Button
-                            variant="soft"
-                            className="w-full pl-4"
-                            color="violet"
-                          >
-                            <a>Admin dashboard</a>
-                          </Button>
-                        </Link>
-                      )}
-                      <p className="text-center text-neutral-600">or</p>
-                    </div>
-                  )}
-
-                  <Button variant="solid" color="red" onClick={handleLogout}>
-                    <Link href={""}>Logout</Link>{" "}
-                  </Button>
-                </div>
               </div>
             )}
 
             {/* if screen size above md then show sidebar */}
 
             <div className="hidden md:block">
-              {
-                // if url is /admin then show admin sidebar
-
-                session.user.isAdmin &&
-                window.location.pathname === "/admin" ? (
+              {session.user.isAdmin &&
+                window.location.pathname === "/admin" && (
                   <>
                     {adminSidebarHeadings.map((heading, index) => (
-                      <ItemHeading
+                      <AdminItemHeading
                         setOpen={setOpen}
                         key={index}
                         heading={heading}
                         number={index}
-                        // @ts-ignore
-                        sideBarItems={adminSidebarItems}
                       />
                     ))}
                   </>
-                ) : (
-                  <>
-                    {sidebarHeadings.map((heading, index) => (
-                      <ItemHeading
-                        setOpen={setOpen}
-                        key={index}
-                        heading={heading}
-                        number={index}
-                        // @ts-ignore
-                        sideBarItems={sidebarItems}
-                      />
-                    ))}
-                  </>
-                )
-              }
+                )}
 
               <div className="pl-4 flex w-[90%] flex-wrap pt-12 pb-4 flex-col gap-1">
                 {session.user.isAdmin && (

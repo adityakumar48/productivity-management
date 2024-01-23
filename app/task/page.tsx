@@ -4,12 +4,14 @@ import CreateTask from "./CreateTask";
 import ShowTask from "./ShowTask";
 import { Task } from "@prisma/client";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 export const dynamic = "force-dynamic";
 
 const TodoHomepage = () => {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   // Api Endpoint to fetch data
   const fetchTask = async () => {
@@ -26,6 +28,7 @@ const TodoHomepage = () => {
 
   // For First Time Fetching Data
   useEffect(() => {
+    router.refresh();
     fetchTask();
   }, []);
 
