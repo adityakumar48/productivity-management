@@ -105,19 +105,21 @@ export const AdminItemHeading = ({ heading, setOpen }: SidebarProps) => {
             </h2>
 
             <div>
-              {/* @ts-ignore */}
-              {item[heading].data.map((item, index) => (
-                <li key={index} className="md:block flex flex-row">
-                  <Link
-                    href={item.href}
-                    onClick={() => setOpen && setOpen(false)}
-                    className="flex  items-center space-x-1 pl-3 pb-1 text-lg hover:text-[#6963b0] transition-colors duration-200 ease-in-out "
-                  >
-                    {<item.icon />}
-                    <span className="">{item.name}</span>
-                  </Link>{" "}
-                </li>
-              ))}
+              <ul>
+                {/* @ts-ignore */}
+                {item[heading].data.map((item, index) => (
+                  <li key={index} className="md:block flex flex-row">
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen && setOpen(false)}
+                      className="flex  items-center space-x-1 pl-3 pb-1 text-lg hover:text-[#6963b0] transition-colors duration-200 ease-in-out "
+                    >
+                      {<item.icon />}
+                      <span className="">{item.name}</span>
+                    </Link>{" "}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         );

@@ -8,9 +8,12 @@ const AdminUsers = () => {
   const [data, setData] = useState<User[]>([]);
 
   const fetchData = async () => {
-    const res = await axios.get("/api/admin/users");
-
-    setData(res.data);
+    try {
+      const res = await axios.get("/api/admin/users");
+      setData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
