@@ -1,14 +1,13 @@
-import ReminderAction from "@/app/reminder/components/ReminderAction";
 import { User } from "@prisma/client";
 import { Badge, Table, Text } from "@radix-ui/themes";
 import UsersAction from "./UsersAction";
 
 interface Props {
   data: User[];
-  setData: React.Dispatch<React.SetStateAction<User[]>>;
+  loading?: boolean;
 }
 
-const ShowAllUsers = ({ data, setData }: Props) => {
+const ShowAllUsers = ({ data, loading }: Props) => {
   return (
     <div className="mt-4">
       <Table.Root>
@@ -54,10 +53,17 @@ const ShowAllUsers = ({ data, setData }: Props) => {
           })}
         </Table.Body>
       </Table.Root>
+      {loading && (
+        <div className="flex flex-col w-full h-[50vh] justify-center items-center">
+          <p className="text-gray-400 py-3 text-3xl font-semibold font-poppins">
+            Loading...
+          </p>
+        </div>
+      )}{" "}
       {data?.length === 0 && (
         <div className="flex flex-col w-full h-[50vh] justify-center items-center">
           <p className="text-gray-400 py-3 text-3xl font-semibold font-poppins">
-            No reminders yet!
+            No Users yet!
           </p>
         </div>
       )}
