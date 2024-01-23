@@ -6,13 +6,19 @@ import ShowAllUsers from "./components/ShowAllUsers";
 
 const AdminUsers = () => {
   const [data, setData] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const res = await axios.get("/api/admin/users");
       setData(res.data);
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,7 +36,7 @@ const AdminUsers = () => {
         </div>
 
         {/* Show All Users */}
-        <ShowAllUsers data={data} setData={setData} />
+        <ShowAllUsers data={data} loading={loading} />
       </div>
     </div>
   );
