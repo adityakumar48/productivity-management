@@ -232,16 +232,38 @@ export const Sidebar = () => {
 
             {open && (
               <div className="md:hidden">
-                {sidebarHeadings.map((heading, index) => (
-                  <ItemHeading
-                    setOpen={setOpen}
-                    key={index}
-                    heading={heading}
-                    number={index}
-                    // @ts-ignore
-                    sideBarItems={sidebarItems}
-                  />
-                ))}
+                {
+                  // if url is /admin then show admin sidebar
+
+                  session.user.isAdmin &&
+                  window.location.pathname === "/admin" ? (
+                    <>
+                      {adminSidebarHeadings.map((heading, index) => (
+                        <ItemHeading
+                          setOpen={setOpen}
+                          key={index}
+                          heading={heading}
+                          number={index}
+                          // @ts-ignore
+                          sideBarItems={adminSidebarItems}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      {sidebarHeadings.map((heading, index) => (
+                        <ItemHeading
+                          setOpen={setOpen}
+                          key={index}
+                          heading={heading}
+                          number={index}
+                          // @ts-ignore
+                          sideBarItems={sidebarItems}
+                        />
+                      ))}
+                    </>
+                  )
+                }
 
                 <div className="pl-4 flex w-[90%] flex-wrap pt-12 pb-4 flex-col gap-1">
                   {session.user.isAdmin && (
