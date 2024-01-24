@@ -6,12 +6,14 @@ import { deleteNote, setNotes } from "../redux/slices/notes/index";
 import NoteLoading from "./NoteLoading";
 import NotesCard from "./components/NotesCard";
 import NotesHeader from "./components/NotesHeader";
+import { useRouter } from "next/navigation";
 
 const NotesHomePage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [loadingCards, setLoadingCards] = useState<number>(3);
   const dispatch = useAppDispatch();
   const notes = useAppSelector((state) => state.notes.notes);
+  const router = useRouter();
 
   // get notes
   const getNotes = async () => {
@@ -21,6 +23,7 @@ const NotesHomePage = () => {
       const data = await res.data;
       dispatch(setNotes(data));
       setIsLoading(false);
+      router.refresh();
     } catch (err) {
       console.log(err);
       setIsLoading(false);
@@ -43,6 +46,7 @@ const NotesHomePage = () => {
       const res = await axios.delete(`/api/notes/${id}`);
       const data = await res.data;
       // getNotes();
+      router.refresh();
     } catch (err) {
       console.log(err);
     }
