@@ -53,19 +53,20 @@ const ShowAllUsers = ({ data, loading }: Props) => {
           })}
         </Table.Body>
       </Table.Root>
-      {loading && (
+      {loading === true ? (
         <div className="flex flex-col w-full h-[50vh] justify-center items-center">
           <p className="text-gray-400 py-3 text-3xl font-semibold font-poppins">
             Loading...
           </p>
         </div>
-      )}{" "}
-      {data?.length === 0 && (
-        <div className="flex flex-col w-full h-[50vh] justify-center items-center">
-          <p className="text-gray-400 py-3 text-3xl font-semibold font-poppins">
-            No Users yet!
-          </p>
-        </div>
+      ) : (
+        data?.length === 0 && (
+          <div className="flex flex-col w-full h-[50vh] justify-center items-center">
+            <p className="text-gray-400 py-3 text-3xl font-semibold font-poppins">
+              No Users yet!
+            </p>
+          </div>
+        )
       )}
     </div>
   );

@@ -96,11 +96,6 @@ const adminSidebarItems = [
           icon: VscPulse,
           href: "/notes",
         },
-        {
-          name: "Habit Tracker",
-          icon: AiOutlineCalendar,
-          href: "/habit",
-        },
       ],
     },
     User: {
@@ -236,7 +231,7 @@ export const Sidebar = () => {
                   // if url is /admin then show admin sidebar
 
                   session.user.isAdmin &&
-                  window.location.pathname === "/admin" ? (
+                  window.location.pathname.includes("admin") ? (
                     <>
                       {adminSidebarHeadings.map((heading, index) => (
                         <ItemHeading
@@ -308,7 +303,7 @@ export const Sidebar = () => {
                 // if url is /admin then show admin sidebar
 
                 session.user.isAdmin &&
-                window.location.pathname === "/admin" ? (
+                window.location.pathname.includes("admin") ? (
                   <>
                     {adminSidebarHeadings.map((heading, index) => (
                       <ItemHeading
@@ -340,7 +335,7 @@ export const Sidebar = () => {
               <div className="pl-4 flex w-[90%] flex-wrap pt-12 pb-4 flex-col gap-1">
                 {session.user.isAdmin && (
                   <div>
-                    {window.location.pathname === "/admin" ? (
+                    {window.location.pathname.includes("admin") ? (
                       <Link href={"/"}>
                         <Button
                           variant="soft"

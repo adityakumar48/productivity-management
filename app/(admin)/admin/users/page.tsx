@@ -3,10 +3,12 @@ import { User } from "@prisma/client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ShowAllUsers from "./components/ShowAllUsers";
+import { useRouter } from "next/navigation";
 
 const AdminUsers = () => {
   const [data, setData] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const fetchData = async () => {
     try {
@@ -14,6 +16,7 @@ const AdminUsers = () => {
       const res = await axios.get("/api/admin/users");
       setData(res.data);
       setLoading(false);
+      router.refresh();
     } catch (err) {
       setLoading(false);
       console.log(err);

@@ -20,6 +20,7 @@ const TodoHomepage = () => {
       const res = await axios.patch(`/api/tasks`);
       setData(res.data);
       setLoading(false);
+      router.refresh();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -28,8 +29,10 @@ const TodoHomepage = () => {
 
   // For First Time Fetching Data
   useEffect(() => {
-    router.refresh();
     fetchTask();
+    return () => {
+      setData([]);
+    };
   }, []);
 
   return (

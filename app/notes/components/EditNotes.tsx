@@ -48,8 +48,8 @@ const EditNotes = ({ note, id, getNotes }: Props) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button variant="solid">
-          <BsPencilSquare /> <Text>Edit</Text>
+        <Button variant="outline" color="purple">
+          <BsPencilSquare /> Edit
         </Button>
       </Dialog.Trigger>
 
