@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { Badge, Table, Text } from "@radix-ui/themes";
+import { Avatar, Badge, Table, Text } from "@radix-ui/themes";
 import UsersAction from "./UsersAction";
 
 interface Props {
@@ -14,6 +14,7 @@ const ShowAllUsers = ({ data, loading }: Props) => {
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>S. no.</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Avatar</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Role</Table.ColumnHeaderCell>
@@ -34,13 +35,21 @@ const ShowAllUsers = ({ data, loading }: Props) => {
             return (
               <Table.Row key={item?.id}>
                 <Table.RowHeaderCell>{index + 1}</Table.RowHeaderCell>
+                <Table.Cell>
+                  <Avatar
+                    size={"2"}
+                    radius="full"
+                    // @ts-ignore
+                    src={item?.image || null}
+                  />{" "}
+                </Table.Cell>
                 <Table.Cell>{item.name}</Table.Cell>
                 <Table.Cell>{item.email}</Table.Cell>
                 <Table.Cell>
                   {item.isAdmin === false ? (
                     <Text>User</Text>
                   ) : (
-                    <Badge>Admin</Badge>
+                    <Badge color="purple">Admin</Badge>
                   )}
                 </Table.Cell>
                 <Table.Cell>{`${month} ${year}`}</Table.Cell>

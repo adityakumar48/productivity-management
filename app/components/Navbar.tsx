@@ -29,7 +29,7 @@ const Navbar = () => {
 
   return (
     <nav className="container">
-      <div className="md:flex  h-[10vh] my-5 md:my-0 items-center justify-between px-8 md:px-16 ">
+      <div className="md:flex  h-[10vh] my-5 md:my-0 items-center justify-between px-4 md:px-8 ">
         <div className="logo">
           <h1 className="text-xl font-bold font-poppins">
             {" "}

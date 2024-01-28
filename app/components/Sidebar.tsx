@@ -109,7 +109,7 @@ const adminSidebarItems = [
         {
           name: "Activity",
           icon: FiActivity,
-          href: "/timer",
+          href: "/admin/activity",
         },
         {
           name: "Records",
