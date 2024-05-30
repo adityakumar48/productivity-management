@@ -16,7 +16,9 @@ const HeroSection = () => {
               <span>Your</span> Goals.
             </h1>
             <h1>
-              <span>You&apos;re</span> the Boss.
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-pink-500 to-blue-500 ">
+                You&apos;re the Boss.
+              </span>{" "}
             </h1>
           </div>
           <div className="pl-2">

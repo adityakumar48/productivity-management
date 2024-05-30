@@ -102,7 +102,7 @@ const Column = ({
       });
     });
 
-    const res = await axios.put(`/api/tasks/${id}`, {
+    const res = await axios.post(`/api/tasks/${id}?status=COMPLETED`, {
       Time: time,
     });
   };
@@ -122,7 +122,7 @@ const Column = ({
       });
     });
 
-    const res = await axios.patch(`/api/tasks/${id}`);
+    const res = await axios.post(`/api/tasks/${id}?status=IN_PROCESSING`);
   };
 
   const markAsCompleted = async ({ id }: { id: number }) => {
@@ -130,7 +130,7 @@ const Column = ({
     setData((prev) => {
       return prev?.filter((item) => item.id !== id);
     });
-    const res = await axios.post(`/api/tasks/${id}`);
+    const res = await axios.post(`/api/tasks/${id}?status=MARK_AS_COMPLETED`);
   };
 
   return (
