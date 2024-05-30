@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -97,7 +97,7 @@ model Contact {
 model Notes {
   id        String   @id @default(cuid())
   Title     String
-  Content   String   @db.LongText
+  Content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
