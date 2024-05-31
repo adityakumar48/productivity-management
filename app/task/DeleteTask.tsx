@@ -4,11 +4,12 @@ import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import React from "react";
 import { AiOutlineMinusCircle } from "react-icons/ai";
+import { useAppDispatch } from "../redux/hooks";
+import { deleteTask } from "../redux/slices/tasks";
 
 export const dynamic = "force-dynamic";
 
 const DeleteTask = ({
-  setData,
   taskId,
   click,
 }: {
@@ -17,11 +18,9 @@ const DeleteTask = ({
   click: boolean;
   setData: React.Dispatch<React.SetStateAction<Task[]>>;
 }) => {
+  const dispatch = useAppDispatch();
   const onDelete = async (id: number) => {
-    setData((prev) => {
-      return prev.filter((item) => item.id !== id);
-    });
-
+    dispatch(deleteTask(id));
     // Send Delete Request
     const res = await axios.delete(`/api/tasks/${id}`);
   };

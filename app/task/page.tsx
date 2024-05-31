@@ -5,35 +5,40 @@ import ShowTask from "./ShowTask";
 import { Task } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import tasks, {
+  fetchTasksStart,
+  fetchTasksSuccess,
+  fetchTasksFailure,
+} from "../redux/slices/tasks";
 export const dynamic = "force-dynamic";
 
 const TodoHomepage = () => {
   const [refresh, setRefresh] = useState(false);
-  const [data, setData] = useState<Task[]>([]);
+  const [localdata, setData] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  // Api Endpoint to fetch data
-  const fetchTask = async () => {
+  const data = useAppSelector((state) => state.tasks);
+  const dispatch = useAppDispatch();
+
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await axios.patch(`/api/tasks`);
-      setData(res.data);
-      setLoading(false);
-      router.refresh();
+      const response = await axios.patch("/api/tasks");
+      dispatch(fetchTasksSuccess(response.data));
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching data:", error);
+      dispatch(fetchTasksFailure(error));
+    } finally {
       setLoading(false);
     }
   };
 
-  // For First Time Fetching Data
   useEffect(() => {
-    fetchTask();
-    return () => {
-      setData([]);
-    };
-  }, []);
+    fetchData();
+    console.log(data);
+  }, [dispatch]);
 
   return (
     <div className="px-8 md:px-16 pt-2">
@@ -43,14 +48,13 @@ const TodoHomepage = () => {
         Write and manage your tasks easily...{" "}
       </p>
       <div>
-        <CreateTask fetchTask={fetchTask} setData={setData} />
+        <CreateTask fetchTask={fetchData} setData={setData} />
         <hr className="mt-10 w-[70%] mx-auto " />
       </div>
       <ShowTask
         loading={loading}
         refresh={refresh}
-        data={data}
-        fetchTask={fetchTask}
+        fetchTask={fetchData}
         setData={setData}
         setRefresh={setRefresh}
       />

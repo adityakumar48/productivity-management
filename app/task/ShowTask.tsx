@@ -4,11 +4,11 @@ import Link from "next/link";
 import React from "react";
 import { GoHistory } from "react-icons/go";
 import Column from "./Column";
+import { useAppSelector } from "../redux/hooks";
 
 interface Props {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
-  data: Task[];
   loading: boolean;
   setData: React.Dispatch<React.SetStateAction<Task[]>>;
   fetchTask: () => void;
@@ -20,15 +20,18 @@ const ShowTask = ({
   refresh,
   loading,
   setRefresh,
-  data,
   setData,
   fetchTask,
 }: Props) => {
-  const todoItems = data?.filter((item) => item.Status === "TASK");
-  const processingItems = data?.filter(
+  const dataFromStore = useAppSelector((state) => state.tasks.tasks);
+
+  const todoItems = dataFromStore.filter((item) => item.Status === "TASK");
+  const processingItems = dataFromStore?.filter(
     (item) => item.Status === "IN_PROCESSING"
   );
-  const completedItems = data?.filter((item) => item.Status === "COMPLETED");
+  const completedItems = dataFromStore?.filter(
+    (item) => item.Status === "COMPLETED"
+  );
 
   return (
     <div className="h-auto">
@@ -50,7 +53,7 @@ const ShowTask = ({
           fetchTask={fetchTask}
           refresh={refresh}
           setRefresh={setRefresh}
-          data={todoItems}
+          data={todoItems as Task[]} // Explicitly type todoItems as an array of Task objects
           setData={setData}
           className="md:w-1/3 px-4"
           title="Task"
@@ -63,7 +66,7 @@ const ShowTask = ({
           fetchTask={fetchTask}
           refresh={refresh}
           setRefresh={setRefresh}
-          data={processingItems}
+          data={processingItems as Task[]}
           setData={setData}
           className="md:w-1/3 px-4"
           title="Processing"
@@ -76,7 +79,7 @@ const ShowTask = ({
           fetchTask={fetchTask}
           refresh={refresh}
           setRefresh={setRefresh}
-          data={completedItems}
+          data={completedItems as Task[]}
           setData={setData}
           className="md:w-1/3 px-4"
           title="Completed"

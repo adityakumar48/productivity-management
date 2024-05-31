@@ -7,6 +7,8 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from "../components/Spinner";
+import { useAppDispatch } from "../redux/hooks";
+import { createTask } from "../redux/slices/tasks";
 
 interface Props {
   fetchTask: () => void;
@@ -30,8 +32,8 @@ const CreateTask = ({ fetchTask, setData }: Props) => {
   const [status, setStatus] = useState<TaskStatus>("TASK");
   const [disable, setDisable] = useState<boolean>(false);
   const [task, setTask] = useState<string>("");
-
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setClick(true);
@@ -56,13 +58,13 @@ const CreateTask = ({ fetchTask, setData }: Props) => {
       });
 
       if (res.status === 201) {
+        dispatch(createTask(res.data));
         toast.success("😀Task Added Successfully", toastOptions);
       }
 
       setDisable(false);
       setTask("");
       setStatus("TASK");
-      fetchTask();
       setClick(false);
       router.push("/");
     } catch (error) {
