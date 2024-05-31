@@ -8,6 +8,9 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import DeleteTask from "./DeleteTask";
 import OpenModal from "./OpenModal";
+import { useAppDispatch } from "../redux/hooks";
+import { changeStatus } from "../redux/slices/tasks";
+import { IoPauseCircleOutline } from "react-icons/io5";
 
 export const dynamic = "force-dynamic";
 
@@ -50,58 +53,58 @@ const Column = ({
   loading,
 }: Props) => {
   const [timers, setTimers] = useState<timers[]>([]);
-
+  const [isPaused, setIsPaused] = useState(false);
+  const [startTime, setStartTime] = useState(Date.now());
   // Checking time difference
   useEffect(() => {
     const updateTimers = () => {
-      const currentTime = new Date().getTime();
+      if (!isPaused) {
+        const currentTime = new Date().getTime();
 
-      const updatedTimers = data.map((item) => {
-        if (item.Status === "IN_PROCESSING") {
-          const itemTime = parseInt(item.Time, 10);
-          const elapsedTime = currentTime - itemTime;
+        const updatedTimers = data.map((item) => {
+          if (item.Status === "IN_PROCESSING") {
+            const itemTime = parseInt(item.Time, 10);
+            const elapsedTime = isPaused
+              ? currentTime - startTime! // Use stored start time when paused
+              : currentTime - itemTime;
 
-          const hours = Math.floor(elapsedTime / 3600000);
-          const minutes = Math.floor((elapsedTime % 3600000) / 60000);
-          const seconds = Math.floor((elapsedTime % 60000) / 1000);
+            const hours = Math.floor(elapsedTime / 3600000);
+            const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+            const seconds = Math.floor((elapsedTime % 60000) / 1000);
 
-          return {
-            ...item,
-            elapsedTime: `${String(hours).padStart(2, "0")}:${String(
-              minutes
-            ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`,
-          };
-        }
+            return {
+              ...item,
+              elapsedTime: `${String(hours).padStart(2, "0")}:${String(
+                minutes
+              ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`,
+            };
+          }
 
-        return item;
-      });
-      // @ts-ignore
-      setTimers(updatedTimers);
+          return item;
+        });
+        // @ts-ignore
+        setTimers(updatedTimers);
+      } else {
+        setStartTime(new Date().getTime());
+      }
     };
-
     const intervalId = setInterval(updateTimers, 1000);
 
     return () => clearInterval(intervalId);
-  }, [data]);
+  }, [data, isPaused]);
 
   const [click, setClick] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   // @ts-ignore
   const TimeStop = async ({ id, time }: { id: number; time: string }) => {
-    // @ts-ignore
-    setData((prev) => {
-      return prev?.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            Status: "COMPLETED",
-            Time: time,
-          };
-        }
-        return item;
-      });
-    });
-
+    dispatch(
+      changeStatus({
+        id,
+        status: "COMPLETED",
+        time: time,
+      })
+    );
     const res = await axios.post(`/api/tasks/${id}?status=COMPLETED`, {
       Time: time,
     });
@@ -109,18 +112,13 @@ const Column = ({
 
   const GotoProcessing = async ({ id }: { id: number }) => {
     // @ts-ignore
-    setData((prev) => {
-      return prev?.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            Status: "IN_PROCESSING",
-            Time: new Date().getTime().toString(),
-          };
-        }
-        return item;
-      });
-    });
+    dispatch(
+      changeStatus({
+        id,
+        status: "IN_PROCESSING",
+        time: new Date().getTime().toString(),
+      })
+    );
 
     const res = await axios.post(`/api/tasks/${id}?status=IN_PROCESSING`);
   };
@@ -133,6 +131,9 @@ const Column = ({
     const res = await axios.post(`/api/tasks/${id}?status=MARK_AS_COMPLETED`);
   };
 
+  const handlePause = () => {
+    setIsPaused(!isPaused); // Toggle paused state
+  };
   return (
     <div className={`${className} pt-5`}>
       <div className={` min-h-[40vh] pb-1 mb-5 rounded-lg ${cardBgColor}`}>
@@ -187,6 +188,14 @@ const Column = ({
                             item={item}
                             setData={setData}
                           />
+
+                          <IoPauseCircleOutline
+                            onClick={handlePause}
+                            className={`${
+                              click ? " cursor-not-allowed" : ""
+                            }text-lg  cursor-pointer`}
+                          />
+
                           <DeleteTask
                             // @ts-ignore
                             setData={setData}
